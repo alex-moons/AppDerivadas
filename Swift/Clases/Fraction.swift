@@ -96,6 +96,12 @@ class Fraction {
   }
   
   func toLatex() -> String {
-    return ""
+    if (denominator == 1){
+      return String(self.numerator)
+    }
+    if (numerator < 0){
+      return "-\\frac{" + String(numerator * -1) + "}{" + String(denominator) + "}"
+    }
+    return "\\frac{" + String(numerator) + "}{" + String(denominator) + "}"
   }
 }

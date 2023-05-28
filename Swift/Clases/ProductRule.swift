@@ -14,7 +14,9 @@ class ProductRule {
   }
 
   func diffLatex() -> String {
-    return ""
+    let udv = "(" + first.toLatex() + ")(" + second.differentiate().toLatex() + ")"
+    let duv = "(" + first.differentiate().toLatex() + ")(" + second.toLatex() + ")"
+    return udv + " + " + duv
   }
 
   func toString() -> String {
@@ -22,6 +24,6 @@ class ProductRule {
   }
 
   func toLatex() -> String {
-    return ""
+    return ("(" + self.first.toLatex() + ")(" + self.second.toLatex() + ")")
   }
 }

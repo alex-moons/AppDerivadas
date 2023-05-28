@@ -43,6 +43,13 @@ class Term {
   }
 
   func toLatex() -> String {
-    return "" 
+    var result = ""
+    result += self.coefficient.toLatex() 
+    if (self.exponent.numerator == 1 && self.exponent.denominator == 1){
+      result += "x"
+    } else if (self.exponent.numerator != 0){
+      result += "x^{" + self.exponent.toLatex() + "}"
+    }
+    return result
   }
 }

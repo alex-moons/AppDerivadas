@@ -15,7 +15,10 @@ class ChainRule {
   }
 
   func diffLatex() -> String {
-    return ""
+    var result = self.exponent.toLatex() + "(" + self.polynomial.toLatex() + ")^{"
+    let newExponent = self.exponent - Fraction(numerator: 1, denominator: 1)
+    result += newExponent.toLatex() + "}(" + self.polynomial.differentiate().toLatex() + ")"
+    return result
   }
 
   func toString() -> String {
@@ -26,6 +29,9 @@ class ChainRule {
   }
 
   func toLatex() -> String {
-    return ""
+    if (self.exponent.isWhole() && self.exponent.numerator == 1){
+      return self.polynomial.toLatex()
+    }
+    return ("(" + self.polynomial.toLatex() + ")^{" + self.exponent.toLatex()) + "}"
   }
 }

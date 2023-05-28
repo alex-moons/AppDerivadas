@@ -11,7 +11,7 @@ class Polynomial {
     self.terms.append(term)
   }
 
-  func order() {
+  func orderTerms() {
     //Los Términos se ordenan de mayor exponente a menor
     terms.sort(by: >)
   }
@@ -46,6 +46,20 @@ class Polynomial {
   }
   
   func toLatex() -> String {
-    return ""
+    var str = ""
+    for i in 0..<self.terms.count {
+      if self.terms[i].coefficient.numerator == 0 {
+            continue
+        }
+      if (i != 0 && self.terms[i].coefficient.isPositive()){
+        str += "+"
+      }
+
+      str += self.terms[i].toLatex()
+    }
+    if str.isEmpty {
+        str = "0"
+    }
+    return str
   }
 }

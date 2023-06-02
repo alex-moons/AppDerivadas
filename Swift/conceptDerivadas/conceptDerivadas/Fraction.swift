@@ -15,7 +15,11 @@ class Fraction: NSObject {
     
     init(numerator: Int, denominator: Int) {
         self.numerator = numerator
-        self.denominator = denominator
+        if (denominator == 0){
+            self.denominator = 1
+        } else {
+            self.denominator = denominator
+        }
     }
     
     func selfSimplify() {

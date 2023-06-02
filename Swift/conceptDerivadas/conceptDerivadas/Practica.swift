@@ -10,13 +10,14 @@ import LaTeXSwiftUI
 
 struct NumberPadView: View {
     @State private var laTex: String = ""
-    @State private var enteredNumber: String = ""
-    
+    @State private var bonito: String = ""
+    @State private var lastTerm: Int = 0
+
     let rows = [
-        ["1", "2", "3", "⌫"],
-        ["4", "5", "6", "/"],
-        ["7", "8", "9", "﹡"],
-        ["𝑥", "0", "+", "-"]
+        ["1", "2", "3", "⌫", "^"],
+        ["4", "5", "6", "/", "{"],
+        ["7", "8", "9", "﹡", "}"],
+        ["𝑥", "0", "+", "-", "."]
     ]
     
     var body: some View {
@@ -28,9 +29,11 @@ struct NumberPadView: View {
                 
                 LaTeX(laTex)
                     .parsingMode(.all)
+                    .errorMode(.original)
             }
             
-            var lastTerm:Int = 0
+            Text("LastTerm: \(lastTerm)")
+            
             
             ForEach(rows, id: \.self) { row in
                 HStack(spacing: 10) {
@@ -38,20 +41,33 @@ struct NumberPadView: View {
                         Button(action: {
                             switch number{
                             case "⌫":
-                                if laTex != ""{
+                                if lastTerm != 0 && Int(laTex.suffix(lastTerm)) == nil {
+                                    let temp = laTex.dropLast(lastTerm)
+                                    laTex = String(temp)
+                                }else if lastTerm != 0{
                                     laTex.removeLast()
                                 }
+                            case "𝑥":
+                                laTex.append("x")
+                                lastTerm = 1
+                            case "+":
+                                laTex.append(number)
+                                lastTerm = 1
+                            case "-":
+                                laTex.append(number)
+                                lastTerm = 1
+                            case "﹡":
+                                laTex.append(" *")
+                                lastTerm = 1
                             case "/":
-                                let numerator = laTex.suffix(1)
-                                laTex.removeLast()
+                                let numerator = laTex.suffix(lastTerm)
+                                let temp = laTex.dropLast(lastTerm)
+                                laTex = String(temp)
                                 laTex.append("\\frac{\(numerator)}{")
+                                lastTerm = lastTerm + 12
                             default:
-                                if laTex.suffix(1) == "{"{
-                                    laTex.append(number + "}")
-                                }else{
-                                    laTex.append(number)
-
-                                }
+                                laTex.append(number)
+                                lastTerm = 1
                             }
                         }, label: {
                             Text(number)
@@ -81,6 +97,7 @@ struct Practica: View {
             
             LaTeX("\\ f(x) = \\frac{d}{dx} x^2")
                 .parsingMode(.all)
+            
 
             NumberPadView()
                 .padding(.all)

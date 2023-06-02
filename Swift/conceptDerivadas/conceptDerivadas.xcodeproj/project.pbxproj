@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB0425862A2A993B00BE87AA /* Fraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425852A2A993B00BE87AA /* Fraction.swift */; };
+		FB0425882A2A997B00BE87AA /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425872A2A997B00BE87AA /* Term.swift */; };
+		FB04258A2A2A9A1000BE87AA /* Polynomial.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425892A2A9A1000BE87AA /* Polynomial.swift */; };
+		FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258B2A2A9A7700BE87AA /* ChainRule.swift */; };
+		FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258D2A2A9AD400BE87AA /* ProductRule.swift */; };
+		FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */; };
+		FB04259A2A2AA7F200BE87AA /* conceptDerivadasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */; };
+		FB0425A02A2AA80A00BE87AA /* UnitTestPolynomial.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */; };
 		FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE329F2F15D00E55BDB /* Home.swift */; };
 		FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE529F2F20800E55BDB /* Examen.swift */; };
 		FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE729F2F2EE00E55BDB /* Matricula.swift */; };
@@ -18,7 +26,26 @@
 		FBCB597529F2E732006C9C01 /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FBCB597429F2E732006C9C01 /* LaTeXSwiftUI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FB04259B2A2AA7F200BE87AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FBCB595929F2E5CB006C9C01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FBCB596029F2E5CB006C9C01;
+			remoteInfo = conceptDerivadas;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		FB0425852A2A993B00BE87AA /* Fraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fraction.swift; sourceTree = "<group>"; };
+		FB0425872A2A997B00BE87AA /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
+		FB0425892A2A9A1000BE87AA /* Polynomial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polynomial.swift; sourceTree = "<group>"; };
+		FB04258B2A2A9A7700BE87AA /* ChainRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainRule.swift; sourceTree = "<group>"; };
+		FB04258D2A2A9AD400BE87AA /* ProductRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRule.swift; sourceTree = "<group>"; };
+		FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotientRule.swift; sourceTree = "<group>"; };
+		FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestPolynomial.swift; sourceTree = "<group>"; };
+		FB0425972A2AA7F200BE87AA /* conceptDerivadasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = conceptDerivadasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conceptDerivadasTests.swift; sourceTree = "<group>"; };
 		FB77CBE329F2F15D00E55BDB /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FB77CBE529F2F20800E55BDB /* Examen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examen.swift; sourceTree = "<group>"; };
 		FB77CBE729F2F2EE00E55BDB /* Matricula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matricula.swift; sourceTree = "<group>"; };
@@ -32,6 +59,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FB0425942A2AA7F200BE87AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBCB595E29F2E5CB006C9C01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -43,10 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB0425982A2AA7F200BE87AA /* conceptDerivadasTests */ = {
+			isa = PBXGroup;
+			children = (
+				FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */,
+				FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */,
+			);
+			path = conceptDerivadasTests;
+			sourceTree = "<group>";
+		};
 		FBCB595829F2E5CB006C9C01 = {
 			isa = PBXGroup;
 			children = (
 				FBCB596329F2E5CB006C9C01 /* conceptDerivadas */,
+				FB0425982A2AA7F200BE87AA /* conceptDerivadasTests */,
 				FBCB596229F2E5CB006C9C01 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				FBCB596129F2E5CB006C9C01 /* conceptDerivadas.app */,
+				FB0425972A2AA7F200BE87AA /* conceptDerivadasTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +109,12 @@
 			children = (
 				FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */,
 				FBCB596629F2E5CB006C9C01 /* Practica.swift */,
+				FB0425852A2A993B00BE87AA /* Fraction.swift */,
+				FB0425872A2A997B00BE87AA /* Term.swift */,
+				FB0425892A2A9A1000BE87AA /* Polynomial.swift */,
+				FB04258B2A2A9A7700BE87AA /* ChainRule.swift */,
+				FB04258D2A2A9AD400BE87AA /* ProductRule.swift */,
+				FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */,
 				FBCB596829F2E5CC006C9C01 /* Assets.xcassets */,
 				FBCB596A29F2E5CC006C9C01 /* conceptDerivadas.entitlements */,
 				FBCB596B29F2E5CC006C9C01 /* Preview Content */,
@@ -86,6 +137,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FB0425962A2AA7F200BE87AA /* conceptDerivadasTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB04259D2A2AA7F200BE87AA /* Build configuration list for PBXNativeTarget "conceptDerivadasTests" */;
+			buildPhases = (
+				FB0425932A2AA7F200BE87AA /* Sources */,
+				FB0425942A2AA7F200BE87AA /* Frameworks */,
+				FB0425952A2AA7F200BE87AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB04259C2A2AA7F200BE87AA /* PBXTargetDependency */,
+			);
+			name = conceptDerivadasTests;
+			productName = conceptDerivadasTests;
+			productReference = FB0425972A2AA7F200BE87AA /* conceptDerivadasTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FBCB596029F2E5CB006C9C01 /* conceptDerivadas */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FBCB597029F2E5CC006C9C01 /* Build configuration list for PBXNativeTarget "conceptDerivadas" */;
@@ -116,6 +185,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					FB0425962A2AA7F200BE87AA = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = FBCB596029F2E5CB006C9C01;
+					};
 					FBCB596029F2E5CB006C9C01 = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -138,11 +211,19 @@
 			projectRoot = "";
 			targets = (
 				FBCB596029F2E5CB006C9C01 /* conceptDerivadas */,
+				FB0425962A2AA7F200BE87AA /* conceptDerivadasTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FB0425952A2AA7F200BE87AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBCB595F29F2E5CB006C9C01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,22 +236,84 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FB0425932A2AA7F200BE87AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB04259A2A2AA7F200BE87AA /* conceptDerivadasTests.swift in Sources */,
+				FB0425A02A2AA80A00BE87AA /* UnitTestPolynomial.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBCB595D29F2E5CB006C9C01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FBCB596729F2E5CB006C9C01 /* Practica.swift in Sources */,
+				FB04258A2A2A9A1000BE87AA /* Polynomial.swift in Sources */,
+				FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */,
 				FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */,
+				FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */,
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
+				FB0425862A2A993B00BE87AA /* Fraction.swift in Sources */,
 				FBA0360629F2F8D7002DB513 /* Resultados.swift in Sources */,
+				FB0425882A2A997B00BE87AA /* Term.swift in Sources */,
 				FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */,
 				FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */,
+				FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		FB04259C2A2AA7F200BE87AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FBCB596029F2E5CB006C9C01 /* conceptDerivadas */;
+			targetProxy = FB04259B2A2AA7F200BE87AA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		FB04259E2A2AA7F200BE87AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ITESM.conceptDerivadasTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/conceptDerivadas.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/conceptDerivadas";
+			};
+			name = Debug;
+		};
+		FB04259F2A2AA7F200BE87AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ITESM.conceptDerivadasTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/conceptDerivadas.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/conceptDerivadas";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		FBCB596E29F2E5CC006C9C01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -363,6 +506,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FB04259D2A2AA7F200BE87AA /* Build configuration list for PBXNativeTarget "conceptDerivadasTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB04259E2A2AA7F200BE87AA /* Debug */,
+				FB04259F2A2AA7F200BE87AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FBCB595C29F2E5CB006C9C01 /* Build configuration list for PBXProject "conceptDerivadas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

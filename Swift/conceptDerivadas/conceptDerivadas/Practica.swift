@@ -9,28 +9,49 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct NumberPadView: View {
+    @State private var laTex: String = ""
     @State private var enteredNumber: String = ""
     
     let rows = [
         ["1", "2", "3", "⌫"],
         ["4", "5", "6", "/"],
-        ["7", "8", "9", "•"],
+        ["7", "8", "9", "﹡"],
         ["𝑥", "0", "+", "-"]
     ]
     
     var body: some View {
         VStack(spacing: 10) {
-            Text("Respuesta: \(enteredNumber)")
+            Text("Respuesta: \(laTex)")
+            HStack{
+                LaTeX("f'(x) =")
+                    .parsingMode(.all)
+                
+                LaTeX(laTex)
+                    .parsingMode(.all)
+            }
+            
+            var lastTerm:Int = 0
             
             ForEach(rows, id: \.self) { row in
                 HStack(spacing: 10) {
                     ForEach(row, id: \.self) { number in
                         Button(action: {
-                            if number.isEmpty {
-                            // Handle delete or clear button actions
-                            enteredNumber = ""
-                            } else {
-                                enteredNumber += number
+                            switch number{
+                            case "⌫":
+                                if laTex != ""{
+                                    laTex.removeLast()
+                                }
+                            case "/":
+                                let numerator = laTex.suffix(1)
+                                laTex.removeLast()
+                                laTex.append("\\frac{\(numerator)}{")
+                            default:
+                                if laTex.suffix(1) == "{"{
+                                    laTex.append(number + "}")
+                                }else{
+                                    laTex.append(number)
+
+                                }
                             }
                         }, label: {
                             Text(number)
@@ -58,7 +79,7 @@ struct Practica: View {
                 .padding()
             
             
-            LaTeX("\\frac{d}{dx} f(x) = \\frac{d}{dx} x^2")
+            LaTeX("\\ f(x) = \\frac{d}{dx} x^2")
                 .parsingMode(.all)
 
             NumberPadView()

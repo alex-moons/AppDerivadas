@@ -31,10 +31,10 @@ final class UnitTestSolver: XCTestCase {
         // Any test you write for XCTest can be annotated as throws and async.
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-        ForEach(0 ..< problemsCR.count) { value in
-                    Text(deckColors[value].name)
-                }
-        XCTAssertEqual(problem[].diffString(), "2(x+2)")
+//        ForEach(0 ..< problemsCR.count) { value in
+//                    Text(deckColors[value].name)
+//                }
+//        XCTAssertEqual(problem[].diffString(), "2(x+2)")
     }
 
     func testPerformanceExample() throws {

@@ -22,7 +22,7 @@ final class UnitTestPolynomial: XCTestCase {
     }
 
     func testExample() throws {
-        var newPoly = Polynomial(terms: [Term]())
+        let newPoly = Polynomial(terms: [Term]())
         newPoly.generate(minVal: 0, maxVal: 9, degree: 4)
         print(newPoly.toString())
         // This is an example of a functional test case.

@@ -32,7 +32,11 @@ class ChainRule: NSObject {
         }
         
       let polydiff = self.polynomial.differentiate()
-        result = "(" + polydiff.multiplyby(coef: self.exponent).toString() + ")" + result
+        if polydiff.terms.count == 1 {
+            result = polydiff.multiplyby(coef: self.exponent).toString() + result
+        }else{
+            result = "(" + polydiff.multiplyby(coef: self.exponent).toString() + ")" + result
+        }
       return result
     }
 

@@ -57,14 +57,6 @@ struct NumberPadView: View {
                     }
                 }
             }
-            
-            
-
-            
-            
-            
-//            var res = Polynomial(terms: usrInput.components(separatedBy: "+"))
-
         }
     }
 }

@@ -14,7 +14,8 @@
 		FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258D2A2A9AD400BE87AA /* ProductRule.swift */; };
 		FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */; };
 		FB04259A2A2AA7F200BE87AA /* conceptDerivadasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */; };
-		FB0425A02A2AA80A00BE87AA /* UnitTestPolynomial.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */; };
+		FB0425A02A2AA80A00BE87AA /* UnitTestGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425912A2AA63B00BE87AA /* UnitTestGeneration.swift */; };
+		FB4D99092A33DF9600DADA11 /* UnitTestSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4D99082A33DF9500DADA11 /* UnitTestSolver.swift */; };
 		FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE329F2F15D00E55BDB /* Home.swift */; };
 		FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE529F2F20800E55BDB /* Examen.swift */; };
 		FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE729F2F2EE00E55BDB /* Matricula.swift */; };
@@ -43,9 +44,10 @@
 		FB04258B2A2A9A7700BE87AA /* ChainRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainRule.swift; sourceTree = "<group>"; };
 		FB04258D2A2A9AD400BE87AA /* ProductRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRule.swift; sourceTree = "<group>"; };
 		FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotientRule.swift; sourceTree = "<group>"; };
-		FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestPolynomial.swift; sourceTree = "<group>"; };
+		FB0425912A2AA63B00BE87AA /* UnitTestGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestGeneration.swift; sourceTree = "<group>"; };
 		FB0425972A2AA7F200BE87AA /* conceptDerivadasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = conceptDerivadasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conceptDerivadasTests.swift; sourceTree = "<group>"; };
+		FB4D99082A33DF9500DADA11 /* UnitTestSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestSolver.swift; sourceTree = "<group>"; };
 		FB77CBE329F2F15D00E55BDB /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FB77CBE529F2F20800E55BDB /* Examen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examen.swift; sourceTree = "<group>"; };
 		FB77CBE729F2F2EE00E55BDB /* Matricula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matricula.swift; sourceTree = "<group>"; };
@@ -80,8 +82,9 @@
 		FB0425982A2AA7F200BE87AA /* conceptDerivadasTests */ = {
 			isa = PBXGroup;
 			children = (
+				FB4D99082A33DF9500DADA11 /* UnitTestSolver.swift */,
 				FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */,
-				FB0425912A2AA63B00BE87AA /* UnitTestPolynomial.swift */,
+				FB0425912A2AA63B00BE87AA /* UnitTestGeneration.swift */,
 			);
 			path = conceptDerivadasTests;
 			sourceTree = "<group>";
@@ -241,7 +244,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB04259A2A2AA7F200BE87AA /* conceptDerivadasTests.swift in Sources */,
-				FB0425A02A2AA80A00BE87AA /* UnitTestPolynomial.swift in Sources */,
+				FB0425A02A2AA80A00BE87AA /* UnitTestGeneration.swift in Sources */,
+				FB4D99092A33DF9600DADA11 /* UnitTestSolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

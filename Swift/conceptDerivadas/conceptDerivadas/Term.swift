@@ -41,14 +41,16 @@ class Term: NSObject {
 
     //Funciones de output
     func toString() -> String {
-      var result = ""
-      result += self.coefficient.toString()
-      if (self.exponent.numerator == 1 && self.exponent.denominator == 1){
-        result += "x"
-      } else if (self.exponent.numerator != 0){
-        result += "x^" + self.exponent.toString()
-      }
-      return result
+        var result = ""
+        if !(self.coefficient.numerator == 1 && self.coefficient.denominator == 1){
+            result += self.coefficient.toString()
+        }
+        if (self.exponent.numerator == 1 && self.exponent.denominator == 1){
+            result += "x"
+        } else if (self.exponent.numerator != 0){
+            result += "x^" + self.exponent.toString()
+        }
+        return result
     }
 
     func toLatex() -> String {

@@ -9,31 +9,24 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct NumberPadView: View {
-    @State private var laTex: String = ""
-    @State private var bonito: String = ""
-    @State private var lastTerm: Int = 0
+    @State private var usrInput: String = ""
+    @State private var insertIndex: Int = 0
 
     let rows = [
-        ["1", "2", "3", "⌫", "^"],
-        ["4", "5", "6", "/", "{"],
-        ["7", "8", "9", "﹡", "}"],
-        ["𝑥", "0", "+", "-", "."]
+        ["1", "2", "3", "^", "⌫"],
+        ["4", "5", "6", "(", ")"],
+        ["7", "8", "9", "﹡", "÷"],
+        ["𝑥", "0", ".", "+", "-"]
     ]
     
     var body: some View {
         VStack(spacing: 10) {
-            Text("Respuesta: \(laTex)")
             HStack{
                 LaTeX("f'(x) =")
                     .parsingMode(.all)
                 
-                LaTeX(laTex)
-                    .parsingMode(.all)
-                    .errorMode(.original)
+                TextField("Respuesta", text: $usrInput)
             }
-            
-            Text("LastTerm: \(lastTerm)")
-            
             
             ForEach(rows, id: \.self) { row in
                 HStack(spacing: 10) {
@@ -41,33 +34,17 @@ struct NumberPadView: View {
                         Button(action: {
                             switch number{
                             case "⌫":
-                                if lastTerm != 0 && Int(laTex.suffix(lastTerm)) == nil {
-                                    let temp = laTex.dropLast(lastTerm)
-                                    laTex = String(temp)
-                                }else if lastTerm != 0{
-                                    laTex.removeLast()
+                                if usrInput.count > 0{
+                                    usrInput.removeLast()
                                 }
+                            case "÷":
+                                usrInput.append("/")
                             case "𝑥":
-                                laTex.append("x")
-                                lastTerm = 1
-                            case "+":
-                                laTex.append(number)
-                                lastTerm = 1
-                            case "-":
-                                laTex.append(number)
-                                lastTerm = 1
+                                usrInput.append("x")
                             case "﹡":
-                                laTex.append(" *")
-                                lastTerm = 1
-                            case "/":
-                                let numerator = laTex.suffix(lastTerm)
-                                let temp = laTex.dropLast(lastTerm)
-                                laTex = String(temp)
-                                laTex.append("\\frac{\(numerator)}{")
-                                lastTerm = lastTerm + 12
+                                usrInput.append("*")
                             default:
-                                laTex.append(number)
-                                lastTerm = 1
+                                usrInput.append(number)
                             }
                         }, label: {
                             Text(number)
@@ -80,9 +57,18 @@ struct NumberPadView: View {
                     }
                 }
             }
+            
+            
+
+            
+            
+            
+//            var res = Polynomial(terms: usrInput.components(separatedBy: "+"))
+
         }
     }
 }
+
 
 struct Practica: View {
     @State private var check:Bool = false
@@ -93,17 +79,21 @@ struct Practica: View {
         VStack(alignment: .center) {
             Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
                 .padding()
+                .dynamicTypeSize(.xLarge)
             
+//            let problem = ChainRule(polynomial: Polynomial(terms: [Term(coefficient: Fraction(numerator: 3, denominator: 2), exponent: Fraction(numerator: 1, denominator: 1)), Term(coefficient: Fraction(numerator: 4, denominator: 1), exponent: Fraction(numerator: 0, denominator: 1))]), exponent: Fraction(numerator: 3, denominator: 2))
             
-            LaTeX("\\ f(x) = \\frac{d}{dx} x^2")
+            let problem = ChainRule(polynomial: Polynomial(terms: [Term(coefficient: Fraction(numerator: 1, denominator: 1), exponent: Fraction(numerator: 1, denominator: 1)), Term(coefficient: Fraction(numerator: 2, denominator: 1), exponent: Fraction(numerator: 0, denominator: 1))]), exponent: Fraction(numerator: 2, denominator: 1))
+            
+            LaTeX("f(x) = " + problem.toLatex())
                 .parsingMode(.all)
-            
 
             NumberPadView()
                 .padding(.all)
             
             HStack{
-                Button("Checar") {
+                Button("Answ") {
+                    print(problem.diffString())
                     check.toggle()
                 }
                 .padding()

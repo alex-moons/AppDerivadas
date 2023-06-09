@@ -17,9 +17,22 @@ class ChainRule: NSObject {
     }
 
     func diffString() -> String {
-      var result = self.exponent.toString() + "(" + self.polynomial.toString() + ")^"
-      let newExponent = self.exponent - Fraction(numerator: 1, denominator: 1)
-      result += newExponent.toString() + "(" + self.polynomial.differentiate().toString() + ")"
+        
+      var result = "(" + self.polynomial.toString()+")"
+        var newExponent: Fraction = Fraction(numerator: 0, denominator: 1)
+
+        if self.exponent.numerator == 2 && self.exponent.denominator == 1{
+            
+        }else if self.exponent.denominator == 1{
+            newExponent = self.exponent - Fraction(numerator: 1, denominator: 1)
+            result+="^" + newExponent.toString()
+        }else{
+            newExponent = self.exponent - Fraction(numerator: self.exponent.denominator, denominator: self.exponent.denominator)
+            result+="^" + newExponent.toString()
+        }
+        
+      let polydiff = self.polynomial.differentiate()
+        result = "(" + polydiff.multiplyby(coef: self.exponent).toString() + ")" + result
       return result
     }
 

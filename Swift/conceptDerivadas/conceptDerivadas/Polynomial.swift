@@ -44,6 +44,14 @@ class Polynomial: NSObject {
       return Polynomial(terms: terms)
     }
 
+    func multiplyby(coef:Fraction) -> Polynomial{
+        var terms: [Term] = []
+        for i in 0..<self.terms.count {
+            terms.append(Term(coefficient: Fraction(numerator:self.terms[i].coefficient.numerator * coef.numerator, denominator: self.terms[i].coefficient.denominator * coef.denominator), exponent: Fraction(numerator: 0, denominator: 1)))
+        }
+        return Polynomial(terms: terms)
+    }
+    
     //Funciones de output
     func toString() -> String {
       var str = ""

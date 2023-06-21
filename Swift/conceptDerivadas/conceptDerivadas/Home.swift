@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Home: View {
-    @EnvironmentObject var appInfo: AppInfo
     @State var idTrig:Bool = false
     var body: some View {
         NavigationView{
@@ -22,18 +21,10 @@ struct Home: View {
                     Button(action:{
                         
                     }){
-                        if (appInfo.nombre != "" && appInfo.matricula != ""){
-                            NavigationLink(destination: Practica()){
-                                Text("Práctica")
-                            }
-                            .navigationTitle(appInfo.matricula + " " + appInfo.nombre)
-                            
-                        } else {
-                            NavigationLink(destination: Practica()){
+                            NavigationLink(destination: PracConfig()){
                                 Text("Práctica")
                             }
                             .navigationTitle("Home")
-                        }
                     }
                     
                     Button(action:{

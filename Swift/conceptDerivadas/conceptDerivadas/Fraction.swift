@@ -121,16 +121,22 @@ class Fraction: NSObject {
 
     //Funciones de output
     func toString() -> String {
-      if (denominator == 1){
-        return String(self.numerator)
-      }
-      return "\(self.numerator)/\(self.denominator)"
+        if (denominator == 1){
+            return String(self.numerator)
+        }
+        if denominator == numerator{
+            return "1"
+        }
+        return "\(self.numerator)/\(self.denominator)"
     }
     
     func toLatex() -> String {
       if (denominator == 1){
         return String(self.numerator)
       }
+        if denominator == numerator{
+            return "1"
+        }
       if (numerator < 0){
         return "-\\frac{" + String(numerator * -1) + "}{" + String(denominator) + "}"
       }

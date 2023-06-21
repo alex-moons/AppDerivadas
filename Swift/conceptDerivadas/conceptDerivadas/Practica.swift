@@ -63,19 +63,20 @@ struct NumberPadView: View {
 
 
 struct Practica: View {
+    @Binding var problems:[Bool]
+    @Binding var config:Bool
     @State private var check:Bool = false
     @State private var next:Bool = false
-
     
     var body: some View {
         VStack(alignment: .center) {
             Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
                 .padding()
                 .dynamicTypeSize(.xLarge)
-            
-//            let problem = ChainRule(polynomial: Polynomial(terms: [Term(coefficient: Fraction(numerator: 3, denominator: 2), exponent: Fraction(numerator: 1, denominator: 1)), Term(coefficient: Fraction(numerator: 4, denominator: 1), exponent: Fraction(numerator: 0, denominator: 1))]), exponent: Fraction(numerator: 3, denominator: 2))
-            
-            let problem = ChainRule(polynomial: Polynomial(terms: [Term(coefficient: Fraction(numerator: 1, denominator: 1), exponent: Fraction(numerator: 1, denominator: 1)), Term(coefficient: Fraction(numerator: 2, denominator: 1), exponent: Fraction(numerator: 0, denominator: 1))]), exponent: Fraction(numerator: 2, denominator: 1))
+
+            let problem = Polynomial(terms: [Term]())
+            let _: () = problem.generate(minVal: 0, maxVal: 9, degree: 4)
+            let _: () = problem.orderTerms()
             
             LaTeX("f(x) = " + problem.toLatex())
                 .parsingMode(.all)
@@ -85,12 +86,14 @@ struct Practica: View {
             
             HStack{
                 Button("Answ") {
-                    print(problem.diffString())
+                    print("Problema: \(problem.toString())")
+                    print("Answ: \(problem.differentiate().toString())")
                     check.toggle()
                 }
                 .padding()
                 
                 Button(action:{
+                    print("\n 1: \(problems[0]) \n 2: \(problems[1]) \n 3: \(problems[2]) \n 4: \(problems[3])")
                     next.toggle()
                 }){
                     Image(systemName: "chevron.right")
@@ -109,6 +112,6 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica()
+        Practica(problems: .constant([true,true,true,true]), config: .constant(true))
     }
 }

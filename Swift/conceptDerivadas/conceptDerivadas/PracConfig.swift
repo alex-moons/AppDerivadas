@@ -33,6 +33,8 @@ struct PracConfig: View {
             Section(header: Text("Configuraciones")){
                 Toggle("Cronómetro", isOn: $config)
                     .toggleStyle(SwitchToggleStyle(tint: .purple))
+                
+                Stepper("Dificultad \(grado)", value: $grado, in: 1...3)
             }
             
             NavigationLink(destination: Practica(problems: $problems, config: $config, grado: $grado), label: {Text("Empezar")})

@@ -11,7 +11,8 @@ struct StopWatch: View {
     /// Current progress time expresed in seconds
         @State private var progressTime = 0
         @State private var isRunning = false
-
+        @Binding var parentProgressTime: Int
+    
         /// Computed properties to get the progressTime in hh:mm:ss format
         var hours: Int {
             progressTime / 3600
@@ -30,55 +31,35 @@ struct StopWatch: View {
 
         var body: some View {
             VStack {
-                HStack(spacing: 3) {
+                HStack(spacing: 0) {
                     StopwatchUnit(timeUnit: hours)
                     Text(":")
-                        .font(.system(size: 40))
-                        .offset(y: -3)
+                        .font(.system(size: 20))
+                        .offset(y: -1)
                     StopwatchUnit(timeUnit: minutes)
                     Text(":")
-                        .font(.system(size: 40))
-                        .offset(y: -3)
+                        .font(.system(size: 20))
+                        .offset(y: -1)
                     StopwatchUnit(timeUnit: seconds)
                 }
-
-                HStack {
-                    Button(action: {
-                        if isRunning{
-                            timer?.invalidate()
-                        } else {
-                            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-                                progressTime += 1
-                            })
-                        }
-                        isRunning.toggle()
-                    }) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 5.0)
-                                .frame(width: 80, height: 15, alignment: .center)
-                                .foregroundColor(isRunning ? .pink : .green)
-
-                            Text(isRunning ? "Stop" : "Start")
-                                .font(.body)
-                                .foregroundColor(.white)
-                        }
-                    }
-
-                    Button(action: {
-                        progressTime = 0
-                    }) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 5.0)
-                                .frame(width: 80, height: 15, alignment: .center)
-                                .foregroundColor(.gray)
-
-                            Text("Reset")
-                                .font(.body)
-                                .foregroundColor(.white)
-                        }
-                    }
-                }
             }
+            .onAppear{
+                startstop()
+            }
+            .onDisappear{
+                parentProgressTime = progressTime
+                startstop()
+            }
+        }
+        func startstop(){
+            if isRunning{
+                timer?.invalidate()
+            } else {
+                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+                    progressTime += 1
+                })
+            }
+            isRunning.toggle()
         }
     }
 
@@ -96,13 +77,13 @@ struct StopWatch: View {
 
         var body: some View {
             VStack {
-                HStack(spacing: 1) {
+                HStack(spacing: 0) {
                     Text(timeUnitStr.substring(index: 0))
-                        .font(.system(size: 32))
-                        .frame(width: 20)
+                        .font(.system(size: 16))
+                        .frame(width: 10)
                     Text(timeUnitStr.substring(index: 1))
-                        .font(.system(size: 32))
-                        .frame(width: 20)
+                        .font(.system(size: 16))
+                        .frame(width: 10)
                 }
             }
         }
@@ -110,7 +91,7 @@ struct StopWatch: View {
 
     struct Stopwatch_Previews: PreviewProvider {
         static var previews: some View {
-            StopWatch()
+            StopWatch(parentProgressTime: .constant(0))
         }
     }
 

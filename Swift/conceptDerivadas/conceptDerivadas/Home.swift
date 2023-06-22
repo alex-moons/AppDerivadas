@@ -32,8 +32,7 @@ struct Home: View {
                     }){
                         NavigationLink(destination: Examen()){
                             Text("Examen")
-                        }
-                        
+                        }                        
                     }
                 }
             }

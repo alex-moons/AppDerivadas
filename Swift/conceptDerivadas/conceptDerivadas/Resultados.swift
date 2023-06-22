@@ -6,33 +6,68 @@
 //
 
 import SwiftUI
+import LaTeXSwiftUI
 
 struct Resultados: View {
-    @State var results: [[String]] =
-    [
-        ["#1", "Correcta", "0:34"],
-        ["#2", "Correcta", "0:54"],
-        ["#3", "Incorrecta", "1:01"],
-        ["#4", "Correcta", "0:32"],
-    ]
+    @Binding var results: [PolyProb]
+    @Binding var time:Int
+    
+    var hours: Int {
+        time / 3600
+    }
+
+    var minutes: Int {
+        (time % 3600) / 60
+    }
+
+    var seconds: Int {
+        time % 60
+    }
+
     
     var body: some View {
-        VStack(alignment: .leading){
-            ForEach(results, id: \.self){ i in
-                VStack{
-                    List(i, id: \.self){
-                        item in
-                        Text(item)
+        VStack(alignment: .center) {
+            Text("Tiempo:")
+            
+            VStack {
+                HStack(spacing: 0) {
+                    StopwatchUnit(timeUnit: hours)
+                    Text(":")
+                        .font(.system(size: 20))
+                        .offset(y: -1)
+                    StopwatchUnit(timeUnit: minutes)
+                    Text(":")
+                        .font(.system(size: 20))
+                        .offset(y: -1)
+                    StopwatchUnit(timeUnit: seconds)
+                }
+            }
+            
+            List{
+                ForEach(Array(results.enumerated()), id: \.1) { index, result in
+                    VStack(alignment: .leading){
+                        HStack{
+                            Text("Problema \(index+1):")
+                            LaTeX(results[index].problem.toLatex())
+                                .parsingMode(.all)
+                        }
+                        HStack{
+                            Text("Respuesta:")
+                            Text(results[index].answ)
+                        }
+                        HStack{
+                            Text("Se contestó:")
+                            Text(results[index].usrAnsw)
+                        }
                     }
                 }
             }
         }
- 
     }
 }
 
 struct Resultados_Previews: PreviewProvider {
     static var previews: some View {
-        Resultados()
+        Resultados(results: .constant([PolyProb(problem: Polynomial(terms: [Term(coefficient: Fraction(numerator: 1, denominator: 1), exponent: Fraction(numerator: 1, denominator: 1))]), usrAnsw: "")]), time: .constant(0))
     }
 }

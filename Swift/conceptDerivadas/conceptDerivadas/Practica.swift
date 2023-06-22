@@ -12,12 +12,13 @@ struct Practica: View {
     @Binding var problems:[Bool]
     @Binding var config:Bool
     @Binding var grado:Int
+    @State private var title:String = "Práctica"
     @State private var check:Bool = false
     @State private var next:Bool = false
     @State private var currentPage = 0
     @State var listProb2:[PolyProb]
     @State private var usrInput: String = ""
-
+    @State private var progressTime = 0
     
     init(problems: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
         self._problems = problems
@@ -28,22 +29,16 @@ struct Practica: View {
     
     var body: some View {
         VStack(alignment: .center) {
-//            StopWatch()
             
-            Text("Regla General")
-                .font(.title)
-                .bold()
-
             Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                .padding()
-                .dynamicTypeSize(.xLarge)
+                .dynamicTypeSize(.large)
             
             SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
 
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(currentPage: $currentPage, listProb2: $listProb2, grado: $grado)
+            Controls(currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
         }
         .padding()
     }
@@ -69,22 +64,28 @@ struct SeccionIndiv: View {
     @Binding var usrInput: String
 
     var body: some View {
-        VStack{
-            TabView(selection: $currentPage) {
-                ForEach((0..<listProb2.count), id: \.self) { i in
-                    VStack{
+        TabView(selection: $currentPage) {
+            ForEach((0..<listProb2.count), id: \.self) { i in
+                VStack(alignment: .center){
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.indigo)
+                            .frame(width: .infinity, height: 30)
                         Text(String(i+1))
-                        ProblemView(problem: listProb2[i].problem)
+                            .foregroundColor(Color.white)
                     }
+                    .scaledToFit()
+                    ProblemView(problem: listProb2[i].problem)
                 }
+                .padding(.bottom)
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .automatic))
-            .onChange(of: currentPage, perform: { index in
-                usrInput = listProb2[currentPage].usrAnsw
-            })
         }
-        .frame(height: 120)
+        .frame(height: 150)
+        .tabViewStyle(.page)
+        .indexViewStyle(.page(backgroundDisplayMode: .automatic))
+        .onChange(of: currentPage, perform: { index in
+            usrInput = listProb2[currentPage].usrAnsw
+        })
     }
 }
 
@@ -158,6 +159,9 @@ struct Controls: View {
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
     @Binding var grado:Int
+    @Binding var title:String
+    @Binding var config:Bool
+    @Binding var progressTime: Int
 
     var body: some View {
         VStack{
@@ -205,12 +209,20 @@ struct Controls: View {
                 }
                 .padding()
                 
-                Button(action:{
-                    print("next Ch")
-                }){
+                NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
                     Image(systemName: "chevron.right.2")
                 }
                 .padding()
+                .navigationTitle(title)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar{
+                    VStack{
+                        if config{
+                            StopWatch(parentProgressTime: $progressTime)
+                        }
+                    }
+                    .padding(.trailing)
+                }
             }
         }
     }

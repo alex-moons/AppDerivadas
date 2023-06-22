@@ -56,14 +56,12 @@ class Polynomial: NSObject {
     func toString() -> String {
       var str = ""
       for i in 0..<self.terms.count {
-        if self.terms[i].coefficient.numerator == 0 {
-              continue
+        if self.terms[i].coefficient.numerator != 0 {
+          if (i != 0 && self.terms[i].coefficient.isPositive()){
+            str += "+"
           }
-        if (i != 0 && self.terms[i].coefficient.isPositive()){
-          str += "+"
+          str += self.terms[i].toString()
         }
-
-        str += self.terms[i].toString()
       }
       if str.isEmpty {
           str = "0"
@@ -74,18 +72,15 @@ class Polynomial: NSObject {
     func toLatex() -> String {
       var str = ""
       for i in 0..<self.terms.count {
-        if self.terms[i].coefficient.numerator == 0 {
-              continue
+        if self.terms[i].coefficient.numerator != 0 {
+          if (i != 0 && self.terms[i].coefficient.isPositive()){
+            str += "+"
           }
-        if (i != 0 && self.terms[i].coefficient.isPositive()){
-          str += "+"
+          str += self.terms[i].toLatex()
         }
-
-        str += self.terms[i].toLatex()
       }
       if str.isEmpty {
           str = "0"
       }
       return str
-    }
 }

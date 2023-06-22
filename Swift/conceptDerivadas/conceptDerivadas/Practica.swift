@@ -8,6 +8,74 @@
 import SwiftUI
 import LaTeXSwiftUI
 
+struct Practica: View {
+    @Binding var problems:[Bool]
+    @Binding var config:Bool
+    @State private var check:Bool = false
+    @State private var next:Bool = false
+    @State private var page = (0,1)
+    
+    var body: some View {
+        VStack(alignment: .center) {
+//            StopWatch()
+            
+            Text("Regla General")
+                .font(.title)
+                .bold()
+
+            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
+                .padding()
+                .dynamicTypeSize(.xLarge)
+            
+            SeccionIndiv(page: $page)
+
+            NumberPadView()
+                .padding(.all)
+            
+            Controls(page: $page)
+        }
+        .padding()
+        
+    }
+}
+struct Practica_Previews: PreviewProvider {
+    static var previews: some View {
+        Practica(problems: .constant([true,true,true,true]), config: .constant(true))
+    }
+}
+
+
+struct SeccionIndiv: View {
+    @Binding var page:(Int, Int)
+    var body: some View {
+        VStack{
+            TabView(selection: $page.0) {
+                ForEach((0..<page.1), id: \.self) { i in
+                    VStack{
+                        ProblemView()
+                        Text(String(i+1))
+                    }
+                }
+            }
+            .tabViewStyle(.page)
+            .indexViewStyle(.page(backgroundDisplayMode: .automatic))
+        }
+        .frame(height: 90)
+    }
+}
+
+struct ProblemView: View {
+    var body: some View {
+        let problem = Polynomial(terms: [Term]())
+        let _: () = problem.generate(minVal: 0, maxVal: 9, degree: 4)
+        let _: () = problem.orderTerms()
+        
+        LaTeX("f(x) = " + problem.toLatex())
+            .parsingMode(.all)
+    }
+}
+
+
 struct NumberPadView: View {
     @State private var usrInput: String = ""
     @State private var insertIndex: Int = 0
@@ -20,16 +88,17 @@ struct NumberPadView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 7) {
             HStack{
                 LaTeX("f'(x) =")
                     .parsingMode(.all)
                 
                 TextField("Respuesta", text: $usrInput)
             }
+            .padding(.leading)
             
             ForEach(rows, id: \.self) { row in
-                HStack(spacing: 10) {
+                HStack(spacing: 7) {
                     ForEach(row, id: \.self) { number in
                         Button(action: {
                             switch number{
@@ -49,10 +118,10 @@ struct NumberPadView: View {
                         }, label: {
                             Text(number)
                                 .font(.largeTitle)
-                                .frame(width: 60, height: 60)
+                                .frame(width: 55, height: 55)
                                 .background(Color.indigo)
                                 .foregroundColor(.white)
-                                .cornerRadius(20)
+                                .cornerRadius(16)
                         })
                     }
                 }
@@ -61,57 +130,49 @@ struct NumberPadView: View {
     }
 }
 
-
-struct Practica: View {
-    @Binding var problems:[Bool]
-    @Binding var config:Bool
-    @State private var check:Bool = false
-    @State private var next:Bool = false
-    
+struct Controls: View {
+    @Binding var page:(Int,Int)
     var body: some View {
-        VStack(alignment: .center) {
-            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                .padding()
-                .dynamicTypeSize(.xLarge)
-
-            let problem = Polynomial(terms: [Term]())
-            let _: () = problem.generate(minVal: 0, maxVal: 9, degree: 4)
-            let _: () = problem.orderTerms()
-            
-            LaTeX("f(x) = " + problem.toLatex())
-                .parsingMode(.all)
-
-            NumberPadView()
-                .padding(.all)
-            
+        VStack{
+            Button("Answ") {}
+            .padding()
+        
             HStack{
-                Button("Answ") {
-                    print("Problema: \(problem.toString())")
-                    print("Answ: \(problem.differentiate().toString())")
-                    check.toggle()
+                Button(action:{}){
+                    Image(systemName: "chevron.left.2")
                 }
                 .padding()
                 
                 Button(action:{
-                    print("\n 1: \(problems[0]) \n 2: \(problems[1]) \n 3: \(problems[2]) \n 4: \(problems[3])")
-                    next.toggle()
+                    if page.0 > 0{
+                        page.0 -= 1
+                    }
+                }){
+                    Image(systemName: "chevron.left")
+                }
+                .padding()
+                
+                Button(action:{
+                    if page.0+1 < page.1{
+                        page.0 += 1
+                    }else{
+                        page.1 += 1
+                        page.0 = page.1
+                    }
                 }){
                     Image(systemName: "chevron.right")
                 }
                 .padding()
-
+                
+                Button(action:{}){
+                    Image(systemName: "chevron.right.2")
+                }
+                .padding()
             }
         }
-        .padding()
-        
     }
 }
 
 
 
 
-struct Practica_Previews: PreviewProvider {
-    static var previews: some View {
-        Practica(problems: .constant([true,true,true,true]), config: .constant(true))
-    }
-}

@@ -30,16 +30,16 @@ struct StopWatch: View {
 
         var body: some View {
             VStack {
-                HStack(spacing: 10) {
-                    StopwatchUnit(timeUnit: hours, timeUnitText: "HR", color: .pink)
+                HStack(spacing: 3) {
+                    StopwatchUnit(timeUnit: hours)
                     Text(":")
-                        .font(.system(size: 48))
-                        .offset(y: -18)
-                    StopwatchUnit(timeUnit: minutes, timeUnitText: "MIN", color: .blue)
+                        .font(.system(size: 40))
+                        .offset(y: -3)
+                    StopwatchUnit(timeUnit: minutes)
                     Text(":")
-                        .font(.system(size: 48))
-                        .offset(y: -18)
-                    StopwatchUnit(timeUnit: seconds, timeUnitText: "SEC", color: .green)
+                        .font(.system(size: 40))
+                        .offset(y: -3)
+                    StopwatchUnit(timeUnit: seconds)
                 }
 
                 HStack {
@@ -54,12 +54,12 @@ struct StopWatch: View {
                         isRunning.toggle()
                     }) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 15.0)
-                                .frame(width: 120, height: 50, alignment: .center)
+                            RoundedRectangle(cornerRadius: 5.0)
+                                .frame(width: 80, height: 15, alignment: .center)
                                 .foregroundColor(isRunning ? .pink : .green)
 
                             Text(isRunning ? "Stop" : "Start")
-                                .font(.title)
+                                .font(.body)
                                 .foregroundColor(.white)
                         }
                     }
@@ -68,12 +68,12 @@ struct StopWatch: View {
                         progressTime = 0
                     }) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 15.0)
-                                .frame(width: 120, height: 50, alignment: .center)
+                            RoundedRectangle(cornerRadius: 5.0)
+                                .frame(width: 80, height: 15, alignment: .center)
                                 .foregroundColor(.gray)
 
                             Text("Reset")
-                                .font(.title)
+                                .font(.body)
                                 .foregroundColor(.white)
                         }
                     }
@@ -86,8 +86,6 @@ struct StopWatch: View {
     struct StopwatchUnit: View {
 
         var timeUnit: Int
-        var timeUnitText: String
-        var color: Color
 
         /// Time unit expressed as String.
         /// - Includes "0" as prefix if this is less than 10.
@@ -98,24 +96,14 @@ struct StopWatch: View {
 
         var body: some View {
             VStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15.0)
-                        .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                        .fill(color)
-                        .frame(width: 75, height: 75, alignment: .center)
-
-                    HStack(spacing: 2) {
-                        Text(timeUnitStr.substring(index: 0))
-                            .font(.system(size: 48))
-                            .frame(width: 28)
-                        Text(timeUnitStr.substring(index: 1))
-                            .font(.system(size: 48))
-                            .frame(width: 28)
-                    }
+                HStack(spacing: 1) {
+                    Text(timeUnitStr.substring(index: 0))
+                        .font(.system(size: 32))
+                        .frame(width: 20)
+                    Text(timeUnitStr.substring(index: 1))
+                        .font(.system(size: 32))
+                        .frame(width: 20)
                 }
-
-                Text(timeUnitText)
-                    .font(.system(size: 16))
             }
         }
     }

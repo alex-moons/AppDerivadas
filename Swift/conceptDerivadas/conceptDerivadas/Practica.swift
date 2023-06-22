@@ -134,11 +134,13 @@ struct Controls: View {
     @Binding var page:(Int,Int)
     var body: some View {
         VStack{
-            Button("Answ") {}
+            Button("Answ"){}
             .padding()
         
             HStack{
-                Button(action:{}){
+                Button(action:{
+                    print("prev Ch")
+                }){
                     Image(systemName: "chevron.left.2")
                 }
                 .padding()
@@ -153,18 +155,21 @@ struct Controls: View {
                 .padding()
                 
                 Button(action:{
+                    print("button pressed")
                     if page.0+1 < page.1{
                         page.0 += 1
                     }else{
                         page.1 += 1
-                        page.0 = page.1
+                        page.0 += 1
                     }
                 }){
                     Image(systemName: "chevron.right")
                 }
                 .padding()
                 
-                Button(action:{}){
+                Button(action:{
+                    print("next Ch")
+                }){
                     Image(systemName: "chevron.right.2")
                 }
                 .padding()

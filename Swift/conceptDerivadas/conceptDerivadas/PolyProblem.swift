@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Problem: NSObject {
+class PolyProblem: NSObject {
     var problem:Polynomial
     var answ:String
     var usrAnsw:String
@@ -17,6 +17,9 @@ class Problem: NSObject {
         self.answ = answ
         self.usrAnsw = usrAnsw
     }
+
+    
+    
 
 }
 

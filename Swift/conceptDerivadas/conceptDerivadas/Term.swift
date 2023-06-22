@@ -42,13 +42,15 @@ class Term: NSObject {
     //Funciones de output
     func toString() -> String {
         var result = ""
-        if !(self.coefficient.numerator == self.coefficient.denominator){
+        if (self.coefficient.numerator != self.coefficient.denominator){
             result += self.coefficient.toString()
         }
         if (self.exponent.numerator == self.exponent.denominator){
             result += "x"
         } else if (self.exponent.numerator != 0){
             result += "x^" + self.exponent.toString()
+        } else if (self.coefficient.numerator == self.coefficient.denominator){
+            result += "1"
         }
         return result
     }

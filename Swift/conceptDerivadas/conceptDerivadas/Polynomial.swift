@@ -57,7 +57,7 @@ class Polynomial: NSObject {
       var str = ""
       for i in 0..<self.terms.count {
         if self.terms[i].coefficient.numerator != 0 {
-          if (i != 0 && self.terms[i].coefficient.isPositive()){
+          if (str != "" && self.terms[i].coefficient.isPositive()){
             str += "+"
           }
           str += self.terms[i].toString()
@@ -73,7 +73,7 @@ class Polynomial: NSObject {
       var str = ""
       for i in 0..<self.terms.count {
         if self.terms[i].coefficient.numerator != 0 {
-          if (i != 0 && self.terms[i].coefficient.isPositive()){
+          if (str != "" && self.terms[i].coefficient.isPositive()){
             str += "+"
           }
           str += self.terms[i].toLatex()

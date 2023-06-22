@@ -70,7 +70,7 @@ struct SeccionIndiv: View {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.indigo)
-                            .frame(width: .infinity, height: 30)
+                            .frame(height: 30)
                         Text(String(i+1))
                             .foregroundColor(Color.white)
                     }

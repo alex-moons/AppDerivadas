@@ -7,19 +7,18 @@
 
 import UIKit
 
-class PolyProblem: NSObject {
+class PolyProb: NSObject {
     var problem:Polynomial
     var answ:String
     var usrAnsw:String
     
-    init(problem:Polynomial, answ:String, usrAnsw:String){
+    init(problem:Polynomial, usrAnsw:String){
         self.problem = problem
-        self.answ = answ
+        self.answ = problem.differentiate().toString()
         self.usrAnsw = usrAnsw
     }
-
     
-    
-
+    func check() -> Bool {
+        self.answ == self.usrAnsw
+    }
 }
-

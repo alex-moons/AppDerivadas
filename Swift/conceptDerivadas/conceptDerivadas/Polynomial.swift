@@ -23,27 +23,27 @@ class Polynomial: NSObject {
             self.terms.append(Term(coefficient: frac1, exponent: frac2))
         }
     }
-
+    
     //Funciones
     func addTerm(_ term: Term) {
-      self.terms.append(term)
+        self.terms.append(term)
     }
-
+    
     func orderTerms() {
-      //Los Términos se ordenan de mayor exponente a menor
-      terms.sort(by: >)
+        //Los Términos se ordenan de mayor exponente a menor
+        terms.sort(by: >)
     }
-
+    
     func differentiate() -> Polynomial {
-      var terms: [Term] = []
-      for i in 0..<self.terms.count {
-        if (self.terms[i].exponent.numerator != 0){
-          terms.append(Term.differentiate(term: self.terms[i]))
+        var terms: [Term] = []
+        for i in 0..<self.terms.count {
+            if (self.terms[i].exponent.numerator != 0){
+                terms.append(Term.differentiate(term: self.terms[i]))
+            }
         }
-      }
-      return Polynomial(terms: terms)
+        return Polynomial(terms: terms)
     }
-
+    
     func multiplyby(coef:Fraction) -> Polynomial{
         var terms: [Term] = []
         for i in 0..<self.terms.count {
@@ -54,33 +54,34 @@ class Polynomial: NSObject {
     
     //Funciones de output
     func toString() -> String {
-      var str = ""
-      for i in 0..<self.terms.count {
-        if self.terms[i].coefficient.numerator != 0 {
-          if (str != "" && self.terms[i].coefficient.isPositive()){
-            str += "+"
-          }
-          str += self.terms[i].toString()
+        var str = ""
+        for i in 0..<self.terms.count {
+            if self.terms[i].coefficient.numerator != 0 {
+                if (str != "" && self.terms[i].coefficient.isPositive()){
+                    str += "+"
+                }
+                str += self.terms[i].toString()
+            }
         }
-      }
-      if str.isEmpty {
-          str = "0"
-      }
-      return str
+        if str.isEmpty {
+            str = "0"
+        }
+        return str
     }
-
+    
     func toLatex() -> String {
-      var str = ""
-      for i in 0..<self.terms.count {
-        if self.terms[i].coefficient.numerator != 0 {
-          if (str != "" && self.terms[i].coefficient.isPositive()){
-            str += "+"
-          }
-          str += self.terms[i].toLatex()
+        var str = ""
+        for i in 0..<self.terms.count {
+            if self.terms[i].coefficient.numerator != 0 {
+                if (str != "" && self.terms[i].coefficient.isPositive()){
+                    str += "+"
+                }
+                str += self.terms[i].toLatex()
+            }
         }
-      }
-      if str.isEmpty {
-          str = "0"
-      }
-      return str
+        if str.isEmpty {
+            str = "0"
+        }
+        return str
+    }
 }

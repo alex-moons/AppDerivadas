@@ -19,7 +19,7 @@
 		FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE329F2F15D00E55BDB /* Home.swift */; };
 		FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE529F2F20800E55BDB /* Examen.swift */; };
 		FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE729F2F2EE00E55BDB /* Matricula.swift */; };
-		FB92E8222A4289390031D120 /* PolyProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB92E8212A4289390031D120 /* PolyProblem.swift */; };
+		FB92E8222A4289390031D120 /* PolyProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB92E8212A4289390031D120 /* PolyProb.swift */; };
 		FBA0360629F2F8D7002DB513 /* Resultados.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA0360529F2F8D7002DB513 /* Resultados.swift */; };
 		FBBC20442A426F1A009ED1A6 /* PracConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBC20432A426F1A009ED1A6 /* PracConfig.swift */; };
 		FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */; };
@@ -28,6 +28,7 @@
 		FBCB596D29F2E5CC006C9C01 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */; };
 		FBCB597529F2E732006C9C01 /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FBCB597429F2E732006C9C01 /* LaTeXSwiftUI */; };
 		FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2B75D2A42916500543125 /* StopWatch.swift */; };
+		FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDECFA02A44CEB600C4BD9A /* Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +55,7 @@
 		FB77CBE329F2F15D00E55BDB /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FB77CBE529F2F20800E55BDB /* Examen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examen.swift; sourceTree = "<group>"; };
 		FB77CBE729F2F2EE00E55BDB /* Matricula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matricula.swift; sourceTree = "<group>"; };
-		FB92E8212A4289390031D120 /* PolyProblem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyProblem.swift; sourceTree = "<group>"; };
+		FB92E8212A4289390031D120 /* PolyProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyProb.swift; sourceTree = "<group>"; };
 		FBA0360529F2F8D7002DB513 /* Resultados.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resultados.swift; sourceTree = "<group>"; };
 		FBBC20432A426F1A009ED1A6 /* PracConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracConfig.swift; sourceTree = "<group>"; };
 		FBCB596129F2E5CB006C9C01 /* conceptDerivadas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = conceptDerivadas.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +65,7 @@
 		FBCB596A29F2E5CC006C9C01 /* conceptDerivadas.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = conceptDerivadas.entitlements; sourceTree = "<group>"; };
 		FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FBD2B75D2A42916500543125 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
+		FBDECFA02A44CEB600C4BD9A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +135,8 @@
 				FB77CBE729F2F2EE00E55BDB /* Matricula.swift */,
 				FB77CBE529F2F20800E55BDB /* Examen.swift */,
 				FBBC20432A426F1A009ED1A6 /* PracConfig.swift */,
-				FB92E8212A4289390031D120 /* PolyProblem.swift */,
+				FB92E8212A4289390031D120 /* PolyProb.swift */,
+				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
 			);
 			path = conceptDerivadas;
 			sourceTree = "<group>";
@@ -265,7 +268,7 @@
 				FBCB596729F2E5CB006C9C01 /* Practica.swift in Sources */,
 				FB04258A2A2A9A1000BE87AA /* Polynomial.swift in Sources */,
 				FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */,
-				FB92E8222A4289390031D120 /* PolyProblem.swift in Sources */,
+				FB92E8222A4289390031D120 /* PolyProb.swift in Sources */,
 				FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */,
 				FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */,
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
@@ -275,6 +278,7 @@
 				FBBC20442A426F1A009ED1A6 /* PracConfig.swift in Sources */,
 				FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */,
 				FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */,
+				FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */,
 				FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */,
 				FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */,
 			);

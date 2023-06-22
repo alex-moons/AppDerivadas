@@ -10,6 +10,7 @@ import SwiftUI
 struct PracConfig: View {
     @State private var problems:[Bool] = [true,false,false,false]
     @State private var config:Bool = true
+    @State private var grado:Int = 3
     @State private var minimum:Bool = false
     
     var body: some View {
@@ -34,7 +35,7 @@ struct PracConfig: View {
                     .toggleStyle(SwitchToggleStyle(tint: .purple))
             }
             
-            NavigationLink(destination: Practica(problems: $problems, config: $config), label: {Text("Empezar")})
+            NavigationLink(destination: Practica(problems: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
                 .buttonStyle(.plain)
                 .foregroundColor(.indigo)
                 .disabled(minimum)

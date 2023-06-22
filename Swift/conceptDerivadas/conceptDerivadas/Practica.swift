@@ -11,9 +11,20 @@ import LaTeXSwiftUI
 struct Practica: View {
     @Binding var problems:[Bool]
     @Binding var config:Bool
+    @Binding var grado:Int
     @State private var check:Bool = false
     @State private var next:Bool = false
-    @State private var page = (0,1)
+    @State private var currentPage = 0
+    @State var listProb2:[PolyProb]
+    @State private var usrInput: String = ""
+
+    
+    init(problems: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
+        self._problems = problems
+        self._config = config
+        self._grado = grado
+        _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
+    }
     
     var body: some View {
         VStack(alignment: .center) {
@@ -27,49 +38,59 @@ struct Practica: View {
                 .padding()
                 .dynamicTypeSize(.xLarge)
             
-            SeccionIndiv(page: $page)
+            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
 
-            NumberPadView()
+            NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(page: $page)
+            Controls(currentPage: $currentPage, listProb2: $listProb2, grado: $grado)
         }
         .padding()
-        
     }
 }
+
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true,true,true,true]), config: .constant(true))
+        Practica(problems: .constant([true, false, false, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
+func genPoly(grado:Int)->Polynomial{
+    let problem = Polynomial(terms: [Term]())
+    let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado)
+    let _: () = problem.orderTerms()
+    print("Generado: \(problem.toString())")
+    return problem
+}
 
 struct SeccionIndiv: View {
-    @Binding var page:(Int, Int)
+    @Binding var currentPage:Int
+    @Binding var listProb2:[PolyProb]
+    @Binding var usrInput: String
+
     var body: some View {
         VStack{
-            TabView(selection: $page.0) {
-                ForEach((0..<page.1), id: \.self) { i in
+            TabView(selection: $currentPage) {
+                ForEach((0..<listProb2.count), id: \.self) { i in
                     VStack{
-                        ProblemView()
                         Text(String(i+1))
+                        ProblemView(problem: listProb2[i].problem)
                     }
                 }
             }
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .automatic))
+            .onChange(of: currentPage, perform: { index in
+                usrInput = listProb2[currentPage].usrAnsw
+            })
         }
-        .frame(height: 90)
+        .frame(height: 120)
     }
 }
 
 struct ProblemView: View {
+    @State var problem:Polynomial
     var body: some View {
-        let problem = Polynomial(terms: [Term]())
-        let _: () = problem.generate(minVal: 0, maxVal: 9, degree: 4)
-        let _: () = problem.orderTerms()
-        
         LaTeX("f(x) = " + problem.toLatex())
             .parsingMode(.all)
     }
@@ -77,8 +98,10 @@ struct ProblemView: View {
 
 
 struct NumberPadView: View {
-    @State private var usrInput: String = ""
     @State private var insertIndex: Int = 0
+    @Binding var currentPage:Int
+    @Binding var listProb2:[PolyProb]
+    @Binding var usrInput: String
 
     let rows = [
         ["1", "2", "3", "^", "⌫"],
@@ -115,6 +138,7 @@ struct NumberPadView: View {
                             default:
                                 usrInput.append(number)
                             }
+                            listProb2[currentPage].usrAnsw = usrInput
                         }, label: {
                             Text(number)
                                 .font(.largeTitle)
@@ -131,10 +155,21 @@ struct NumberPadView: View {
 }
 
 struct Controls: View {
-    @Binding var page:(Int,Int)
+    @Binding var currentPage:Int
+    @Binding var listProb2:[PolyProb]
+    @Binding var grado:Int
+
     var body: some View {
         VStack{
-            Button("Answ"){}
+            Button("Check"){
+                if listProb2[currentPage].check(){
+                    print("correcto!")
+                }else{
+                    print("incorrecto")
+                    print(listProb2[currentPage].usrAnsw)
+                    print(listProb2[currentPage].answ)
+                }
+            }
             .padding()
         
             HStack{
@@ -146,8 +181,8 @@ struct Controls: View {
                 .padding()
                 
                 Button(action:{
-                    if page.0 > 0{
-                        page.0 -= 1
+                    if currentPage > 0{
+                        currentPage -= 1
                     }
                 }){
                     Image(systemName: "chevron.left")
@@ -155,13 +190,16 @@ struct Controls: View {
                 .padding()
                 
                 Button(action:{
-                    print("button pressed")
-                    if page.0+1 < page.1{
-                        page.0 += 1
+                    if currentPage+1 < listProb2.count{
+                        currentPage += 1
                     }else{
-                        page.1 += 1
-                        page.0 += 1
+                        listProb2.append(PolyProb(problem: genPoly(grado: grado), usrAnsw: ""))
+                        currentPage = listProb2.count-1
+                        print("Curr: \(currentPage)")
+                        print("Max: \(listProb2.count)")
+
                     }
+
                 }){
                     Image(systemName: "chevron.right")
                 }

@@ -64,6 +64,8 @@ class Term: NSObject {
         result += "x"
       } else if (self.exponent.numerator != 0){
         result += "x^{" + self.exponent.toLatex() + "}"
+      }else if (self.coefficient.numerator == self.coefficient.denominator){
+          result += "1"
       }
       return result
     }

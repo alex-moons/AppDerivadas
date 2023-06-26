@@ -66,7 +66,7 @@ struct SeccionIndiv: View {
     var body: some View {
         TabView(selection: $currentPage) {
             ForEach((0..<listProb2.count), id: \.self) { i in
-                VStack(alignment: .center){
+                VStack(){
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.indigo)
@@ -75,12 +75,14 @@ struct SeccionIndiv: View {
                             .foregroundColor(Color.white)
                     }
                     .scaledToFit()
+                    .frame(alignment: .top)
                     ProblemView(problem: listProb2[i].problem)
+                        .frame(height: 80, alignment: .top)
                 }
-                .padding(.bottom)
+                .frame(alignment: .top)
             }
         }
-        .frame(height: 150)
+        .frame(height: 150, alignment: .top)
         .tabViewStyle(.page)
         .indexViewStyle(.page(backgroundDisplayMode: .automatic))
         .onChange(of: currentPage, perform: { index in
@@ -94,12 +96,14 @@ struct ProblemView: View {
     var body: some View {
         LaTeX("f(x) = " + problem.toLatex())
             .parsingMode(.all)
+            .font(.title2)
     }
 }
 
 
 struct NumberPadView: View {
     @State private var insertIndex: Int = 0
+    @GestureState private var preview = false
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
     @Binding var usrInput: String
@@ -113,11 +117,31 @@ struct NumberPadView: View {
     
     var body: some View {
         VStack(spacing: 7) {
-            HStack{
+            HStack (alignment: .center){
                 LaTeX("f'(x) =")
                     .parsingMode(.all)
                 
-                TextField("Respuesta", text: $usrInput)
+                ZStack(alignment: .leading){
+                    TextField("Respuesta", text: $usrInput)
+                        .opacity(preview ? 0 : 1)
+                    LaTeX(usrInput)
+                        .parsingMode(.all)
+                        .opacity(preview ? 1 : 0)
+                }
+                
+                Image(systemName: "photo.on.rectangle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 15)
+                    .gesture(LongPressGesture(minimumDuration: 0.2).sequenced(before: DragGesture(minimumDistance: 0, coordinateSpace: .local)).updating($preview) { value, state, _ in
+                        switch value {
+                            case .second(true, nil):
+                                state = true
+                            default:
+                                break
+                        }
+                    })
+                    .padding(.trailing)
             }
             .padding(.leading)
             

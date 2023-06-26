@@ -21,7 +21,7 @@ class Term: NSObject {
     static func differentiate(term: Term) -> Term {
       let newCoefficient = term.coefficient * term.exponent
       let newExponent = term.exponent - Fraction(numerator: 1, denominator: 1)
-      return Term(coefficient: newCoefficient, exponent: newExponent)
+        return Term(coefficient: newCoefficient.simplify(), exponent: newExponent.simplify())
     }
 
     //Comparadores
@@ -43,8 +43,11 @@ class Term: NSObject {
     func toString() -> String {
         var result = ""
         if (self.coefficient.numerator != self.coefficient.denominator){
-            result += self.coefficient.toString()
-        }
+            if self.coefficient.numerator * -1 == self.coefficient.denominator && self.exponent.numerator != 0{
+                result += "-"
+            }else{
+                result += self.coefficient.toString()
+            }        }
         if (self.exponent.numerator == self.exponent.denominator){
             result += "x"
         } else if (self.exponent.numerator != 0){
@@ -57,8 +60,12 @@ class Term: NSObject {
 
     func toLatex() -> String {
       var result = ""
-        if !(self.coefficient.numerator == self.coefficient.denominator){
-            result += self.coefficient.toLatex()
+        if self.coefficient.numerator != self.coefficient.denominator{
+            if self.coefficient.numerator * -1 == self.coefficient.denominator && self.exponent.numerator != 0{
+                result += "-"
+            }else{
+                result += self.coefficient.toLatex()
+            }
         }
       if (self.exponent.numerator == self.exponent.denominator){
         result += "x"

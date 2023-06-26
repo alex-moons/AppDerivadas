@@ -17,7 +17,12 @@ class Fraction: NSObject {
         self.numerator = numerator
         if (denominator == 0){
             self.denominator = 1
-        } else {
+        } else if denominator < 0{
+            self.denominator = abs(denominator)
+            if numerator > 0{
+                self.numerator.negate()
+            }
+        }else {
             self.denominator = denominator
         }
     }
@@ -124,7 +129,7 @@ class Fraction: NSObject {
         if (denominator == 1){
             return String(self.numerator)
         }
-        if denominator == numerator{
+        if abs(denominator) == abs(numerator){
             return "1"
         }
         return "\(self.numerator)/\(self.denominator)"
@@ -134,7 +139,7 @@ class Fraction: NSObject {
       if (denominator == 1){
         return String(self.numerator)
       }
-        if denominator == numerator{
+        if abs(denominator) == abs(numerator){
             return "1"
         }
       if (numerator < 0){

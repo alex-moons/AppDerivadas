@@ -17,10 +17,57 @@ class Polynomial: NSObject {
     
     func generate(minVal: Int, maxVal: Int, degree: Int) {
         self.terms = [Term]()
+        
+        var negativeProb:Double
+        var fractionProb:Double
+        var expfracProb:Double
+        var expnegfracProb:Double
+        switch degree{
+        case 3:
+            negativeProb = 50.0
+            fractionProb = 50.0
+            expfracProb = 30.0
+            expnegfracProb = 20.0
+        case 2:
+            negativeProb = 30.0
+            fractionProb = 20.0
+            expfracProb = 10.0
+            expnegfracProb = 5.0
+        default:
+            negativeProb = 20.0
+            fractionProb = 10.0
+            expfracProb = 0.0
+            expnegfracProb = 0.0
+        }
         for _ in 0..<degree {
-            let frac1 = Fraction(numerator: Int.random(in: minVal...maxVal), denominator: Int.random(in: minVal...maxVal))
-            let frac2 = Fraction(numerator: Int.random(in: minVal...maxVal), denominator: Int.random(in: minVal...maxVal))
-            self.terms.append(Term(coefficient: frac1, exponent: frac2))
+            var frac1:Fraction
+            var numMin = 1
+            var denMax = 1
+
+            if Double.random(in: 0.0...100.0) <= negativeProb{
+                numMin = minVal
+            }
+            if Double.random(in: 0.0...100.0) <= fractionProb{
+                denMax = maxVal
+            }
+            repeat {
+                frac1 = Fraction(numerator: Int.random(in: numMin...maxVal), denominator: Int.random(in: 1...denMax))
+            } while frac1.numerator == 0
+            
+            var frac2:Fraction
+            numMin = 0
+            denMax = 1
+            if Double.random(in: 0.0...100.0) <= expfracProb{
+                denMax = maxVal
+            }
+            if Double.random(in: 0.0...100.0) <= expnegfracProb{
+                numMin = minVal
+            }
+            repeat {
+                frac2 = Fraction(numerator: Int.random(in: numMin...maxVal), denominator: Int.random(in: 1...denMax))
+            } while frac2.numerator == 0
+            
+            self.terms.append(Term(coefficient: frac1.simplify(), exponent: frac2.simplify()))
         }
     }
     
@@ -57,7 +104,7 @@ class Polynomial: NSObject {
         var str = ""
         for i in 0..<self.terms.count {
             if self.terms[i].coefficient.numerator != 0 {
-                if (str != "" && self.terms[i].coefficient.isPositive()){
+                if (str != "" && self.terms[i].coefficient.numerator > 0){
                     str += "+"
                 }
                 str += self.terms[i].toString()
@@ -73,7 +120,7 @@ class Polynomial: NSObject {
         var str = ""
         for i in 0..<self.terms.count {
             if self.terms[i].coefficient.numerator != 0 {
-                if (str != "" && self.terms[i].coefficient.isPositive()){
+                if (str != "" && self.terms[i].coefficient.numerator > 0){
                     str += "+"
                 }
                 str += self.terms[i].toLatex()

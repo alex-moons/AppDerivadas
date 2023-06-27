@@ -7,15 +7,15 @@
 
 import UIKit
 
-class PolyProb: NSObject {
-    var problem:Polynomial
+class ChainProb: NSObject {
+    var problem:ChainRule
     var answ:String
     var usrAnsw:String
     var correct:Bool
     
-    init(problem:Polynomial, usrAnsw:String){
+    init(problem:ChainRule, usrAnsw:String){
         self.problem = problem
-        self.answ = problem.differentiate().toString()
+        self.answ = problem.diffString()
         self.usrAnsw = usrAnsw
         self.correct = false
     }

@@ -29,6 +29,7 @@
 		FBCB597529F2E732006C9C01 /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FBCB597429F2E732006C9C01 /* LaTeXSwiftUI */; };
 		FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2B75D2A42916500543125 /* StopWatch.swift */; };
 		FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDECFA02A44CEB600C4BD9A /* Config.swift */; };
+		FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE67F6C2A4B8B7700278213 /* ChainProb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FBD2B75D2A42916500543125 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		FBDECFA02A44CEB600C4BD9A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		FBE67F6C2A4B8B7700278213 /* ChainProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainProb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				FBBC20432A426F1A009ED1A6 /* PracConfig.swift */,
 				FB92E8212A4289390031D120 /* PolyProb.swift */,
 				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
+				FBE67F6C2A4B8B7700278213 /* ChainProb.swift */,
 			);
 			path = conceptDerivadas;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */,
 				FB92E8222A4289390031D120 /* PolyProb.swift in Sources */,
 				FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */,
+				FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */,
 				FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */,
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
 				FB0425862A2A993B00BE87AA /* Fraction.swift in Sources */,

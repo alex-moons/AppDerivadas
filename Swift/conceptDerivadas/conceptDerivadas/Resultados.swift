@@ -41,29 +41,41 @@ struct Resultados: View {
                         .offset(y: -1)
                     StopwatchUnit(timeUnit: seconds)
                 }
-            }
-            
-            List{
-                ForEach(Array(results.enumerated()), id: \.1) { index, result in
-                    VStack(alignment: .leading){
-                        HStack{
-                            Text("Problema \(index+1):")
-                            LaTeX(results[index].problem.toLatex())
-                                .parsingMode(.all)
-                        }
-                        HStack{
-                            Text("Respuesta:")
-                            Text(results[index].answ)
-                        }
-                        HStack{
-                            Text("Se contestó:")
-                            Text(results[index].usrAnsw)
+                
+                Text("Calificación: \(getGrade(results:results))")
+                
+                List{
+                    ForEach(Array(results.enumerated()), id: \.1) { index, result in
+                        VStack(alignment: .leading){
+                            HStack{
+                                Text("Problema \(index+1):")
+                                LaTeX(results[index].problem.toLatex())
+                                    .parsingMode(.all)
+                            }
+                            HStack{
+                                Text("Respuesta:")
+                                Text(results[index].answ)
+                            }
+                            HStack{
+                                Text("Se contestó:")
+                                Text(results[index].usrAnsw)
+                            }
                         }
                     }
                 }
             }
         }
     }
+}
+
+func getGrade(results:[PolyProb]) -> Int {
+    var correctAnsw = 0
+    for result in results {
+        if result.correct{
+            correctAnsw += 1
+        }
+    }
+    return Int(Double(correctAnsw) / Double(results.count) * 100)
 }
 
 struct Resultados_Previews: PreviewProvider {

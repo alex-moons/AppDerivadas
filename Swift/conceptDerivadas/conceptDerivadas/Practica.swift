@@ -50,11 +50,23 @@ struct Practica_Previews: PreviewProvider {
     }
 }
 
+func toLatex(input:String)->String{
+    var usrInput:String = input
+    usrInput = usrInput.replacingOccurrences(of: "(", with: "{")
+    usrInput = usrInput.replacingOccurrences(of: ")", with: "}")
+    return usrInput
+}
+
 func genPoly(grado:Int)->Polynomial{
     let problem = Polynomial(terms: [Term]())
     let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado)
     let _: () = problem.orderTerms()
     print("Generado: \(problem.toString())")
+    return problem
+}
+
+func genChain(grado:Int)->ChainRule{
+    let problem = ChainRule(polynomial: genPoly(grado: grado), exponent: Fraction(numerator: 3, denominator: 1))
     return problem
 }
 
@@ -122,13 +134,14 @@ struct NumberPadView: View {
                     .parsingMode(.all)
                 
                 ZStack(alignment: .leading){
-                    TextField("Respuesta", text: $usrInput)
+                    TextField("Respuesta", text: $usrInput,  axis: .vertical)
                         .opacity(preview ? 0 : 1)
-                    LaTeX(usrInput)
+                        .lineLimit(1...2)
+                    LaTeX(toLatex(input: usrInput))
                         .parsingMode(.all)
                         .opacity(preview ? 1 : 0)
                 }
-                
+
                 Image(systemName: "photo.on.rectangle")
                     .resizable()
                     .scaledToFit()
@@ -190,7 +203,8 @@ struct Controls: View {
     var body: some View {
         VStack{
             Button("Check"){
-                if listProb2[currentPage].check(){
+                listProb2[currentPage].check()
+                if listProb2[currentPage].correct{
                     print("correcto!")
                 }else{
                     print("incorrecto")

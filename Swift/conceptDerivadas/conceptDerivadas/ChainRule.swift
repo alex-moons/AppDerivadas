@@ -17,7 +17,6 @@ class ChainRule: NSObject {
     }
 
     func diffString() -> String {
-        
       var result = "(" + self.polynomial.toString()+")"
         var newExponent: Fraction = Fraction(numerator: 0, denominator: 1)
 

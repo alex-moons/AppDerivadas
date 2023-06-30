@@ -15,30 +15,83 @@ struct Practica: View {
     @State private var title:String = "Práctica"
     @State private var check:Bool = false
     @State private var next:Bool = false
+    @State private var currentSection = 0
     @State private var currentPage = 0
+    @State var secciones:ListProb
     @State var listProb2:[PolyProb]
     @State private var usrInput: String = ""
     @State private var progressTime = 0
+    
     
     init(problems: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
         self._problems = problems
         self._config = config
         self._grado = grado
+        
+        let temp = ListProb(poly: [], chain: [], prod: [], quo: [])
+        for index in problems.wrappedValue.indices{
+            if problems[index].wrappedValue{
+                switch index{
+                case 1:
+                    temp.chain = [ChainProb(problem: genChain(grado: grado.wrappedValue), usrAnsw: "")]
+                case 2:
+                    temp.prod = [ProdProb(problem: genProd(grado: grado.wrappedValue), usrAnsw: "")]
+                case 3:
+                    temp.chain = [ChainProb(problem: genChain(grado: grado.wrappedValue), usrAnsw: "")]
+                default:
+                    temp.poly = [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")]
+                }
+            }
+        }
+        self.secciones = temp
         _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
     }
     
     var body: some View {
         VStack(alignment: .center) {
-            
-            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                .dynamicTypeSize(.large)
-            
-            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+            ZStack{
+                if problems[0] && currentSection == 0{
+                    VStack{
+                        Text("Encuentra la derivada de la siguiente función utilizando la regla General")
+                            .dynamicTypeSize(.large)
+                        
+//                        SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                    }
+                }
+                
+                if problems[1] && currentSection == 0{
+                    VStack{
+                        Text("Encuentra la derivada de la siguiente función utilizando la regla de la Cadena")
+                            .dynamicTypeSize(.large)
+                        
+                        SeccionIndiv(currentPage: $currentPage, listProb2: $secciones.poly, usrInput: $usrInput)
+                    }
+                }
+                
+                if problems[2] && currentSection == 0{
+                    VStack{
+                        Text("Encuentra la derivada de la siguiente función utilizando la regla del Producto")
+                            .dynamicTypeSize(.large)
+                        
+//                        SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                    }
+                }
+                
+                if problems[3] && currentSection == 0{
+                    VStack{
+                        Text("Encuentra la derivada de la siguiente función utilizando la regla del Cociente")
+                            .dynamicTypeSize(.large)
+                        
+//                        SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                    }
+                }
+                
+            }
 
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
+            Controls(currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
         }
         .padding()
     }
@@ -46,7 +99,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true, false, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(problems: .constant([false, true, false, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -55,19 +108,6 @@ func toLatex(input:String)->String{
     usrInput = usrInput.replacingOccurrences(of: "(", with: "{")
     usrInput = usrInput.replacingOccurrences(of: ")", with: "}")
     return usrInput
-}
-
-func genPoly(grado:Int)->Polynomial{
-    let problem = Polynomial(terms: [Term]())
-    let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado)
-    let _: () = problem.orderTerms()
-    print("Generado: \(problem.toString())")
-    return problem
-}
-
-func genChain(grado:Int)->ChainRule{
-    let problem = ChainRule(polynomial: genPoly(grado: grado), exponent: Fraction(numerator: 3, denominator: 1))
-    return problem
 }
 
 struct SeccionIndiv: View {
@@ -88,7 +128,7 @@ struct SeccionIndiv: View {
                     }
                     .scaledToFit()
                     .frame(alignment: .top)
-                    ProblemView(problem: listProb2[i].problem)
+                    ProblemView(rule: listProb2[i].problem)
                         .frame(height: 80, alignment: .top)
                 }
                 .frame(alignment: .top)
@@ -103,10 +143,10 @@ struct SeccionIndiv: View {
     }
 }
 
-struct ProblemView: View {
-    @State var problem:Polynomial
+struct ProblemView<T: Rule>: View {
+    @State var rule:T
     var body: some View {
-        LaTeX("f(x) = " + problem.toLatex())
+        LaTeX("f(x) = " + rule.toLatex())
             .parsingMode(.all)
             .font(.title2)
     }
@@ -193,12 +233,14 @@ struct NumberPadView: View {
 }
 
 struct Controls: View {
+    @Binding var currentSection:Int
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
     @Binding var grado:Int
     @Binding var title:String
     @Binding var config:Bool
     @Binding var progressTime: Int
+    @Binding var problems:[Bool]
 
     var body: some View {
         VStack{
@@ -217,6 +259,9 @@ struct Controls: View {
             HStack{
                 Button(action:{
                     print("prev Ch")
+                    if currentSection != 0{
+                        currentSection -= 1
+                    }
                 }){
                     Image(systemName: "chevron.left.2")
                 }
@@ -247,21 +292,32 @@ struct Controls: View {
                 }
                 .padding()
                 
-                NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
-                    Image(systemName: "chevron.right.2")
-                }
-                .padding()
-                .navigationTitle(title)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar{
-                    VStack{
-                        if config{
-                            StopWatch(parentProgressTime: $progressTime)
-                        }
+                if currentSection != problems.filter({$0}).count{
+                    Button(action:{
+                        currentSection += 1
+                        print("currentSection = \(currentSection)")
+                    }){
+                        Image(systemName: "chevron.right.2")
                     }
-                    .padding(.trailing)
+                    .padding()
+                }else{
+                    NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
+                        Image(systemName: "chevron.right.2")
+                    }
+                    .padding()
+
                 }
             }
+        }
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            VStack{
+                if config{
+                    StopWatch(parentProgressTime: $progressTime)
+                }
+            }
+            .padding(.trailing)
         }
     }
 }

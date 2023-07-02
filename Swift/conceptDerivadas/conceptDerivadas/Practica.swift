@@ -30,13 +30,17 @@ struct Practica: View {
     }
     
     var body: some View {
+        let responseMessages = [0: "general",
+                                1: "de la cadena",
+                                2: "del producto",
+                                3: "del cociente"]
+        
         VStack(alignment: .center) {
-            
             TabView(selection: $currentSection){
                 ForEach(problems.indices, id: \.self) { i in
                     if problems[i]{
                         VStack{
-                            Text("Encuentra la derivada de la siguiente función utilizando la regla \(i): seccion: \(currentSection)")
+                            Text("Encuentra la derivada de la siguiente función utilizando la regla \(responseMessages[i]!):")
                                 .dynamicTypeSize(.large)
                             
                             SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
@@ -44,11 +48,9 @@ struct Practica: View {
                     }
                 }
             }
-            .id(problems.filter{$0}.count)
-            .tabViewStyle(.page)
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .indexViewStyle(.page(backgroundDisplayMode: .never))
             
-
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
@@ -60,7 +62,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true, false, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(problems: .constant([true, true, false, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -84,21 +86,22 @@ struct SeccionIndiv: View {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.indigo)
-                            .frame(height: 30)
+                            .frame(width: 35, height: 35)
                         Text(String(i+1))
                             .foregroundColor(Color.white)
                     }
-                    .scaledToFit()
                     .frame(alignment: .top)
                     ProblemView(problem: listProb2[i].problem)
-                        .frame(height: 80, alignment: .top)
+                        .frame(height: 40, alignment: .top)
                         .border(listProb2[i].correct ? .green : .clear)
                 }
                 .frame(alignment: .top)
+                .scaledToFill()
+                .padding()
             }
         }
-        .frame(height: 150, alignment: .top)
-        .tabViewStyle(.page)
+        .frame(height: 180, alignment: .top)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .automatic))
         .onChange(of: currentPage, perform: { index in
             usrInput = listProb2[currentPage].usrAnsw
@@ -112,6 +115,7 @@ struct ProblemView: View {
         LaTeX("f(x) = " + problem.toLatex())
             .parsingMode(.all)
             .font(.title2)
+            .scaledToFill()
     }
 }
 
@@ -139,6 +143,7 @@ struct NumberPadView: View {
                     TextField("Respuesta", text: $usrInput,  axis: .vertical)
                         .opacity(preview ? 0 : 1)
                         .lineLimit(1...2)
+                        .disabled(true)
                     LaTeX(toLatex(input: usrInput))
                         .parsingMode(.all)
                         .opacity(preview ? 1 : 0)
@@ -213,6 +218,7 @@ struct Controls: View {
     @Binding var title:String
     @Binding var config:Bool
     @Binding var progressTime: Int
+    
     //cada bool representa si está en el inicio de las secciones (0) o problemas (1), para deshabilitar los botones
     @State private var limit:(Bool, Bool) = (true, true)
 

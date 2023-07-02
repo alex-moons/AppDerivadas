@@ -30,17 +30,13 @@ class Fraction: NSObject {
     func selfSimplify() {
         var numerator = self.numerator
         var denominator = self.denominator
-        var commonDivisor = 1
         let upper = min(abs(numerator), abs(denominator))
         if !(upper < 2){
-            for i in 2...upper {
-              while numerator % i == 0 && denominator % i == 0 {
+            for i in stride(from: upper, through: 2, by: -1) {
                 numerator /= i
                 denominator /= i
-                commonDivisor *= i
-              }
             }
-            if (self.numerator < 0 && self.denominator < 0) {
+            if (self.denominator < 0) {
               numerator *= -1
               denominator *= -1
             }
@@ -94,7 +90,7 @@ class Fraction: NSObject {
 
     //Funciones
     func isPositive() -> Bool {
-      return (self.numerator > 0 || self.denominator > 0)
+      return (self.numerator > 0 && self.denominator > 0)
     }
 
     func isWhole() -> Bool {

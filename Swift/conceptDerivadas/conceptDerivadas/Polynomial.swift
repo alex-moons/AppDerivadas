@@ -98,11 +98,10 @@ class Polynomial: Rule {
     }
     
     func multiplyby(coef:Fraction) -> Polynomial{
-        var terms: [Term] = []
         for i in 0..<self.terms.count {
-            terms.append(Term(coefficient: Fraction(numerator:self.terms[i].coefficient.numerator * coef.numerator, denominator: self.terms[i].coefficient.denominator * coef.denominator), exponent: Fraction(numerator: 0, denominator: 1)))
+            self.terms[i].coefficient = self.terms[i].coefficient * coef
         }
-        return Polynomial(terms: terms)
+        return self
     }
     
     //Funciones de output

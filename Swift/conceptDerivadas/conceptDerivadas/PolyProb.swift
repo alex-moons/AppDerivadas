@@ -24,6 +24,7 @@ class PolyProb: NSObject {
         var usr = self.usrAnsw
         usr = usr.replacingOccurrences(of: "(", with: "")
         usr = usr.replacingOccurrences(of: ")", with: "")
+        usr = usr.replacingOccurrences(of: "*", with: "")
         if self.answ == usr{
             self.correct = true
         }

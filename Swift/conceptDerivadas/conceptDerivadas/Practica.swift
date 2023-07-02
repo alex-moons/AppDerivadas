@@ -25,30 +25,34 @@ struct Practica: View {
         self._problems = problems
         self._config = config
         self._grado = grado
+        self._currentSection = State(initialValue: problems.wrappedValue.firstIndex(where: { $0 })!)
         _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
     }
     
     var body: some View {
-        
         VStack(alignment: .center) {
             
-            TabView(selection: $currentSection) {
+            TabView(selection: $currentSection){
                 ForEach(problems.indices, id: \.self) { i in
-                    Text("Encuentra la derivada de la siguiente función utilizando la regla \(i):")
-                        .dynamicTypeSize(.large)
-                    SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                    if problems[i]{
+                        VStack{
+                            Text("Encuentra la derivada de la siguiente función utilizando la regla \(i): seccion: \(currentSection)")
+                                .dynamicTypeSize(.large)
+                            
+                            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                        }
+                    }
                 }
-            }		
+            }
+            .id(problems.filter{$0}.count)
+            .tabViewStyle(.page)
+            .indexViewStyle(.page(backgroundDisplayMode: .never))
             
-//            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-//                .dynamicTypeSize(.large)
-            
-//            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
 
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(currentSection: $currentSection, currentPage: $currentPage, problems: $problems, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
+            Controls(problems: $problems, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
         }
         .padding()
     }
@@ -56,7 +60,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true, false, true, false]), config:.constant(true), grado: .constant(3))
+        Practica(problems: .constant([true, false, false, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -64,20 +68,8 @@ func toLatex(input:String)->String{
     var usrInput:String = input
     usrInput = usrInput.replacingOccurrences(of: "(", with: "{")
     usrInput = usrInput.replacingOccurrences(of: ")", with: "}")
+    usrInput = usrInput.replacingOccurrences(of: "*", with: "")
     return usrInput
-}
-
-func genPoly(grado:Int)->Polynomial{
-    let problem = Polynomial(terms: [Term]())
-    let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado)
-    let _: () = problem.orderTerms()
-    print("Generado: \(problem.toString())")
-    return problem
-}
-
-func genChain(grado:Int)->ChainRule{
-    let problem = ChainRule(polynomial: genPoly(grado: grado), exponent: Fraction(numerator: 3, denominator: 1))
-    return problem
 }
 
 struct SeccionIndiv: View {
@@ -122,7 +114,6 @@ struct ProblemView: View {
             .font(.title2)
     }
 }
-
 
 struct NumberPadView: View {
     @State private var insertIndex: Int = 0
@@ -203,15 +194,26 @@ struct NumberPadView: View {
     }
 }
 
+//Métodos para determinar la siguiente seccion a mostrar
+func nextTrue(current:Int, problems:[Bool])->Int{
+    let nextIndex = problems[(current + 1)...].firstIndex(where: { $0 })
+    return nextIndex!
+}
+func prevTrue(current:Int, problems:[Bool])->Int{
+    let previousIndex = problems[..<current].lastIndex(where: { $0 })
+    return previousIndex!
+}
+
 struct Controls: View {
+    @Binding var problems:[Bool]
     @Binding var currentSection:Int
     @Binding var currentPage:Int
-    @Binding var problems:[Bool]
     @Binding var listProb2:[PolyProb]
     @Binding var grado:Int
     @Binding var title:String
     @Binding var config:Bool
     @Binding var progressTime: Int
+    //cada bool representa si está en el inicio de las secciones (0) o problemas (1), para deshabilitar los botones
     @State private var limit:(Bool, Bool) = (true, true)
 
     var body: some View {
@@ -220,7 +222,6 @@ struct Controls: View {
                 listProb2[currentPage].check()
                 if listProb2[currentPage].correct{
                     print("correcto!")
-                        
                 }else{
                     print("incorrecto")
                     print(listProb2[currentPage].usrAnsw)
@@ -232,8 +233,8 @@ struct Controls: View {
             HStack{
                 //Seccion Previa
                 Button(action:{
-                    if currentSection != 0{
-                        currentSection -= 1
+                    if currentSection > problems.firstIndex(where: { $0 })!{
+                        currentSection = prevTrue(current: currentSection, problems: problems)
                     }else{
                         limit.0 = true
                     }
@@ -246,10 +247,11 @@ struct Controls: View {
                 
                 //Problema anterior
                 Button(action:{
-                    if currentPage != 0{
+                    if currentPage == 1{
                         currentPage -= 1
-                    }else{
                         limit.1 = true
+                    }else{
+                        currentPage -= 1
                     }
                 }){
                     Image(systemName: "chevron.left")
@@ -261,6 +263,7 @@ struct Controls: View {
                 Button(action:{
                     if currentPage+1 < listProb2.count{
                         currentPage += 1
+                        limit.1 = false
                     }else{
                         listProb2.append(PolyProb(problem: genPoly(grado: grado), usrAnsw: ""))
                         currentPage = listProb2.count-1
@@ -275,14 +278,14 @@ struct Controls: View {
                 .padding()
                 
                 //Siguiente seccion. Si estás en la última sección, navega a resultados.
-                if currentSection == problems.filter({$0}).count-1{
+                if currentSection >= problems.lastIndex(of: true)!{
                     NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
                         Image(systemName: "chevron.right.2")
                     }
                     .padding()
                 }else{
                     Button(action:{
-                        currentSection += 1
+                        currentSection = nextTrue(current: currentSection, problems: problems)
                         limit.0 = false
                     }){
                         Image(systemName: "chevron.right.2")
@@ -301,9 +304,22 @@ struct Controls: View {
             }
             .padding(.trailing)
         }
+        .onChange(of: currentSection, perform: { index in
+            if currentSection == problems.firstIndex(where: { $0 })!{
+                limit.0 = true
+            }else{
+                limit.0 = false
+            }
+        })
+        .onChange(of: currentPage, perform: { index in
+            if currentPage == 0{
+                limit.1 = true
+            }else{
+                limit.1 = false
+            }
+        })
     }
 }
-
 
 
 

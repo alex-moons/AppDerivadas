@@ -27,6 +27,7 @@
 		FBCB596929F2E5CC006C9C01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCB596829F2E5CC006C9C01 /* Assets.xcassets */; };
 		FBCB596D29F2E5CC006C9C01 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */; };
 		FBCB597529F2E732006C9C01 /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FBCB597429F2E732006C9C01 /* LaTeXSwiftUI */; };
+		FBCEB78F2A521E3100B91872 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCEB78E2A521E3000B91872 /* Generation.swift */; };
 		FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2B75D2A42916500543125 /* StopWatch.swift */; };
 		FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDECFA02A44CEB600C4BD9A /* Config.swift */; };
 		FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE67F6C2A4B8B7700278213 /* ChainProb.swift */; };
@@ -65,6 +66,7 @@
 		FBCB596829F2E5CC006C9C01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBCB596A29F2E5CC006C9C01 /* conceptDerivadas.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = conceptDerivadas.entitlements; sourceTree = "<group>"; };
 		FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FBCEB78E2A521E3000B91872 /* Generation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
 		FBD2B75D2A42916500543125 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		FBDECFA02A44CEB600C4BD9A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		FBE67F6C2A4B8B7700278213 /* ChainProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainProb.swift; sourceTree = "<group>"; };
@@ -121,8 +123,13 @@
 			isa = PBXGroup;
 			children = (
 				FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */,
+				FB77CBE329F2F15D00E55BDB /* Home.swift */,
+				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
+				FBBC20432A426F1A009ED1A6 /* PracConfig.swift */,
+				FB77CBE729F2F2EE00E55BDB /* Matricula.swift */,
 				FBCB596629F2E5CB006C9C01 /* Practica.swift */,
-				FBD2B75D2A42916500543125 /* StopWatch.swift */,
+				FBA0360529F2F8D7002DB513 /* Resultados.swift */,
+				FB77CBE529F2F20800E55BDB /* Examen.swift */,
 				FB0425852A2A993B00BE87AA /* Fraction.swift */,
 				FB0425872A2A997B00BE87AA /* Term.swift */,
 				FB0425892A2A9A1000BE87AA /* Polynomial.swift */,
@@ -132,14 +139,10 @@
 				FBCB596829F2E5CC006C9C01 /* Assets.xcassets */,
 				FBCB596A29F2E5CC006C9C01 /* conceptDerivadas.entitlements */,
 				FBCB596B29F2E5CC006C9C01 /* Preview Content */,
-				FB77CBE329F2F15D00E55BDB /* Home.swift */,
-				FBA0360529F2F8D7002DB513 /* Resultados.swift */,
-				FB77CBE729F2F2EE00E55BDB /* Matricula.swift */,
-				FB77CBE529F2F20800E55BDB /* Examen.swift */,
-				FBBC20432A426F1A009ED1A6 /* PracConfig.swift */,
 				FB92E8212A4289390031D120 /* PolyProb.swift */,
-				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
 				FBE67F6C2A4B8B7700278213 /* ChainProb.swift */,
+				FBCEB78E2A521E3000B91872 /* Generation.swift */,
+				FBD2B75D2A42916500543125 /* StopWatch.swift */,
 			);
 			path = conceptDerivadas;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */,
 				FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */,
 				FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */,
+				FBCEB78F2A521E3100B91872 /* Generation.swift in Sources */,
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
 				FB0425862A2A993B00BE87AA /* Fraction.swift in Sources */,
 				FBA0360629F2F8D7002DB513 /* Resultados.swift in Sources */,

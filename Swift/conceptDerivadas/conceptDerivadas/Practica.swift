@@ -100,6 +100,7 @@ struct SeccionIndiv: View {
                     .frame(alignment: .top)
                     ProblemView(problem: listProb2[i].problem)
                         .frame(height: 80, alignment: .top)
+                        .border(listProb2[i].correct ? .green : .clear)
                 }
                 .frame(alignment: .top)
             }
@@ -219,6 +220,7 @@ struct Controls: View {
                 listProb2[currentPage].check()
                 if listProb2[currentPage].correct{
                     print("correcto!")
+                        
                 }else{
                     print("incorrecto")
                     print(listProb2[currentPage].usrAnsw)

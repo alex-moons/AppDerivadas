@@ -24,9 +24,9 @@ class Polynomial: NSObject {
         var expnegfracProb:Double
         switch degree{
         case 3:
-            negativeProb = 50.0
-            fractionProb = 50.0
-            expfracProb = 30.0
+            negativeProb = 40.0
+            fractionProb = 30.0
+            expfracProb = 25.0
             expnegfracProb = 20.0
         case 2:
             negativeProb = 30.0
@@ -34,7 +34,7 @@ class Polynomial: NSObject {
             expfracProb = 10.0
             expnegfracProb = 5.0
         default:
-            negativeProb = 20.0
+            negativeProb = 10.0
             fractionProb = 10.0
             expfracProb = 0.0
             expnegfracProb = 0.0

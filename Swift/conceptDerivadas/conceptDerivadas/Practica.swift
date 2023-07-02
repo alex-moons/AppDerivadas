@@ -15,6 +15,7 @@ struct Practica: View {
     @State private var title:String = "Práctica"
     @State private var check:Bool = false
     @State private var next:Bool = false
+    @State private var currentSection = 0
     @State private var currentPage = 0
     @State var listProb2:[PolyProb]
     @State private var usrInput: String = ""
@@ -28,17 +29,26 @@ struct Practica: View {
     }
     
     var body: some View {
+        
         VStack(alignment: .center) {
             
-            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                .dynamicTypeSize(.large)
+            TabView(selection: $currentSection) {
+                ForEach(problems.indices, id: \.self) { i in
+                    Text("Encuentra la derivada de la siguiente función utilizando la regla \(i):")
+                        .dynamicTypeSize(.large)
+                    SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+                }
+            }		
             
-            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+//            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
+//                .dynamicTypeSize(.large)
+            
+//            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
 
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
+            Controls(currentSection: $currentSection, currentPage: $currentPage, problems: $problems, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
         }
         .padding()
     }
@@ -46,7 +56,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true, false, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(problems: .constant([true, false, true, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -193,16 +203,19 @@ struct NumberPadView: View {
 }
 
 struct Controls: View {
+    @Binding var currentSection:Int
     @Binding var currentPage:Int
+    @Binding var problems:[Bool]
     @Binding var listProb2:[PolyProb]
     @Binding var grado:Int
     @Binding var title:String
     @Binding var config:Bool
     @Binding var progressTime: Int
+    @State private var limit:(Bool, Bool) = (true, true)
 
     var body: some View {
         VStack{
-            Button("Check"){
+            Button("Checar"){
                 listProb2[currentPage].check()
                 if listProb2[currentPage].correct{
                     print("correcto!")
@@ -215,31 +228,43 @@ struct Controls: View {
             .padding()
         
             HStack{
+                //Seccion Previa
                 Button(action:{
+                    if currentSection != 0{
+                        currentSection -= 1
+                    }else{
+                        limit.0 = true
+                    }
                     print("prev Ch")
                 }){
                     Image(systemName: "chevron.left.2")
                 }
                 .padding()
+                .disabled(limit.0)
                 
+                //Problema anterior
                 Button(action:{
-                    if currentPage > 0{
+                    if currentPage != 0{
                         currentPage -= 1
+                    }else{
+                        limit.1 = true
                     }
                 }){
                     Image(systemName: "chevron.left")
                 }
                 .padding()
+                .disabled(limit.1)
                 
+                //Siguiente Problema
                 Button(action:{
                     if currentPage+1 < listProb2.count{
                         currentPage += 1
                     }else{
                         listProb2.append(PolyProb(problem: genPoly(grado: grado), usrAnsw: ""))
                         currentPage = listProb2.count-1
+                        limit.1 = false
                         print("Curr: \(currentPage)")
                         print("Max: \(listProb2.count)")
-
                     }
 
                 }){
@@ -247,21 +272,32 @@ struct Controls: View {
                 }
                 .padding()
                 
-                NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
-                    Image(systemName: "chevron.right.2")
-                }
-                .padding()
-                .navigationTitle(title)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar{
-                    VStack{
-                        if config{
-                            StopWatch(parentProgressTime: $progressTime)
-                        }
+                //Siguiente seccion. Si estás en la última sección, navega a resultados.
+                if currentSection == problems.filter({$0}).count-1{
+                    NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
+                        Image(systemName: "chevron.right.2")
                     }
-                    .padding(.trailing)
+                    .padding()
+                }else{
+                    Button(action:{
+                        currentSection += 1
+                        limit.0 = false
+                    }){
+                        Image(systemName: "chevron.right.2")
+                    }
+                    .padding()
                 }
             }
+        }
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            VStack{
+                if config{
+                    StopWatch(parentProgressTime: $progressTime)
+                }
+            }
+            .padding(.trailing)
         }
     }
 }

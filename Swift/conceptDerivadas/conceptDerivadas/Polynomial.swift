@@ -7,7 +7,12 @@
 
 import UIKit
 
-class Polynomial: NSObject {
+protocol Rule {
+    func toLatex() -> String
+    // Add any other common requirements here
+}
+
+class Polynomial: Rule {
     //Un polinomio tiene una lista de Términos con sus exponentes
     var terms: [Term]
     

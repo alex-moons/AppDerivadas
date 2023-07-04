@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChainRule: NSObject {
+class ChainRule: Rule {
     let polynomial: Polynomial
     let exponent: Fraction
 

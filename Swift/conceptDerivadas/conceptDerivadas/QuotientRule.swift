@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QuotientRule: NSObject {
+class QuotientRule: Rule {
     let numerator: Polynomial
     let denominator: Polynomial
 

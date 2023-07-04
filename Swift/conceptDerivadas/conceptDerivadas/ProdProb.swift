@@ -7,13 +7,13 @@
 
 import UIKit
 
-class ChainProb: NSObject {
-    var problem:ChainRule
+class ProdProb: NSObject {
+    var problem:ProductRule
     var answ:String
     var usrAnsw:String
     var correct:Bool
     
-    init(problem:ChainRule, usrAnsw:String){
+    init(problem:ProductRule, usrAnsw:String){
         self.problem = problem
         self.answ = problem.diffString()
         self.usrAnsw = usrAnsw

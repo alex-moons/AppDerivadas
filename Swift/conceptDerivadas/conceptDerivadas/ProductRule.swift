@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductRule: NSObject {
+class ProductRule: Rule {
     let first: Polynomial
     let second: Polynomial
 
@@ -33,6 +33,6 @@ class ProductRule: NSObject {
     }
 
     func toLatex() -> String {
-      return ("(" + self.first.toLatex() + ")(" + self.second.toLatex() + ")")
+      return ("(" + self.first.toLatex() + ")*(" + self.second.toLatex() + ")")
     }
 }

@@ -15,6 +15,9 @@
 		FB0425902A2A9B0000BE87AA /* QuotientRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB04258F2A2A9B0000BE87AA /* QuotientRule.swift */; };
 		FB04259A2A2AA7F200BE87AA /* conceptDerivadasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */; };
 		FB0425A02A2AA80A00BE87AA /* UnitTestGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0425912A2AA63B00BE87AA /* UnitTestGeneration.swift */; };
+		FB08F7042A52458200BA902C /* ProdProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB08F7032A52458200BA902C /* ProdProb.swift */; };
+		FB08F7062A52458900BA902C /* QuoProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB08F7052A52458900BA902C /* QuoProb.swift */; };
+		FB08F70C2A5246EF00BA902C /* Problems.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB08F70B2A5246EF00BA902C /* Problems.swift */; };
 		FB4D99092A33DF9600DADA11 /* UnitTestSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4D99082A33DF9500DADA11 /* UnitTestSolver.swift */; };
 		FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE329F2F15D00E55BDB /* Home.swift */; };
 		FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE529F2F20800E55BDB /* Examen.swift */; };
@@ -53,6 +56,9 @@
 		FB0425912A2AA63B00BE87AA /* UnitTestGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestGeneration.swift; sourceTree = "<group>"; };
 		FB0425972A2AA7F200BE87AA /* conceptDerivadasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = conceptDerivadasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB0425992A2AA7F200BE87AA /* conceptDerivadasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conceptDerivadasTests.swift; sourceTree = "<group>"; };
+		FB08F7032A52458200BA902C /* ProdProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProdProb.swift; sourceTree = "<group>"; };
+		FB08F7052A52458900BA902C /* QuoProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoProb.swift; sourceTree = "<group>"; };
+		FB08F70B2A5246EF00BA902C /* Problems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problems.swift; sourceTree = "<group>"; };
 		FB4D99082A33DF9500DADA11 /* UnitTestSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestSolver.swift; sourceTree = "<group>"; };
 		FB77CBE329F2F15D00E55BDB /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FB77CBE529F2F20800E55BDB /* Examen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examen.swift; sourceTree = "<group>"; };
@@ -139,8 +145,11 @@
 				FBCB596829F2E5CC006C9C01 /* Assets.xcassets */,
 				FBCB596A29F2E5CC006C9C01 /* conceptDerivadas.entitlements */,
 				FBCB596B29F2E5CC006C9C01 /* Preview Content */,
+				FB08F70B2A5246EF00BA902C /* Problems.swift */,
 				FB92E8212A4289390031D120 /* PolyProb.swift */,
 				FBE67F6C2A4B8B7700278213 /* ChainProb.swift */,
+				FB08F7032A52458200BA902C /* ProdProb.swift */,
+				FB08F7052A52458900BA902C /* QuoProb.swift */,
 				FBCEB78E2A521E3000B91872 /* Generation.swift */,
 				FBD2B75D2A42916500543125 /* StopWatch.swift */,
 			);
@@ -282,6 +291,9 @@
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
 				FB0425862A2A993B00BE87AA /* Fraction.swift in Sources */,
 				FBA0360629F2F8D7002DB513 /* Resultados.swift in Sources */,
+				FB08F7042A52458200BA902C /* ProdProb.swift in Sources */,
+				FB08F70C2A5246EF00BA902C /* Problems.swift in Sources */,
+				FB08F7062A52458900BA902C /* QuoProb.swift in Sources */,
 				FB0425882A2A997B00BE87AA /* Term.swift in Sources */,
 				FBBC20442A426F1A009ED1A6 /* PracConfig.swift in Sources */,
 				FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */,

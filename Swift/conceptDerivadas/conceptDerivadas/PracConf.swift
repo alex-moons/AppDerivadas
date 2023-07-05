@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PracConfig: View {
+    @Binding var alumno:Alumno
     @State private var problems:[Bool] = [true,false,false,false]
     @State private var config:Bool = true
     @State private var grado:Int = 3
@@ -37,7 +38,7 @@ struct PracConfig: View {
                 Stepper("Dificultad \(grado)", value: $grado, in: 1...3)
             }
             
-            NavigationLink(destination: Practica(problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
+            NavigationLink(destination: Practica(alumno: .constant(Alumno(nombre: "", id: "")), problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
                 .buttonStyle(.plain)
                 .foregroundColor(.indigo)
                 .disabled(minimum)
@@ -47,6 +48,6 @@ struct PracConfig: View {
 
 struct PracConfig_Previews: PreviewProvider {
     static var previews: some View {
-        PracConfig()
+        PracConfig(alumno: .constant(Alumno(nombre: "", id: "")))
     }
 }

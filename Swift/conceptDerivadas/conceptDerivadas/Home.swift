@@ -8,48 +8,37 @@
 import SwiftUI
 
 struct Home: View {
-    @State var idTrig:Bool = false
+    @State var alumno:Alumno
+    @State var nombre:String
+    @State var id:String
+    
     var body: some View {
         NavigationView{
-            VStack{
-                Button(action:{
-                    self.idTrig = true
-                }){
-                    Text("ID")
-                }
-                HStack{
-                    Button(action:{
-                        
-                    }){
-                            NavigationLink(destination: PracConfig()){
-                                Text("Práctica")
-                            }
-                            .navigationTitle("Home")
-                    }
-                    
-                    Button(action:{
-                        
-                    }){
-                        NavigationLink(destination: Examen()){
-                            Text("Examen")
-                        }                        
-                    }
-                }
-            }
-                .sheet(isPresented: $idTrig){ Matricula()
-                }
+            VStack(alignment: .center){
+                TextField("Nombre", text: $nombre)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
                 
+                TextField("ID", text: $id)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                NavigationLink(destination: PracConfig(alumno: $alumno)){
+                    Text("Práctica")
+                }
+                .navigationTitle("Derivada del Día")
             }
+            .onDisappear(perform: {
+                alumno.nombre = nombre
+                alumno.id = id
+            })
         }
     }
-    
-    struct Home_Previews: PreviewProvider {
-        static var previews: some View {
-            Home()
-        }
-    }
+}
 
-class AppInfo: ObservableObject{
-    @Published var matricula = ""
-    @Published var nombre = ""
+    
+struct Home_Previews: PreviewProvider {
+    static var previews: some View {
+        Home(alumno: Alumno(nombre: "", id: ""), nombre: "", id: "")
+    }
 }

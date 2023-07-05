@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Matricula: View {
-    @EnvironmentObject var appInfo: AppInfo
     @Environment(\.dismiss) private var dismiss
     @State var mat:String = ""
     @State var nombre:String = ""

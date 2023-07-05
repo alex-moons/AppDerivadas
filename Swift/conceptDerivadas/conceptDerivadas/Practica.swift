@@ -9,6 +9,7 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct Practica: View {
+    @Binding var alumno:Alumno
     @Binding var problemConfig:[Bool]
     @Binding var config:Bool
     @Binding var grado:Int
@@ -18,7 +19,8 @@ struct Practica: View {
     @State private var usrInput: String = ""
     @State private var progressTime = 0
     
-    init(problemConfig: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
+    init(alumno: Binding<Alumno>, problemConfig: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
+        self._alumno = alumno
         self._problemConfig = problemConfig
         self._config = config
         self._grado = grado
@@ -35,7 +37,7 @@ struct Practica: View {
             NumberPadView(currentPage: $currentPage, usrInput: $usrInput, problems: $problems)
                 .padding(.all)
             
-            Controls(problemConfig: $problemConfig, currentPage: $currentPage, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
+            Controls(alumno: $alumno, problemConfig: $problemConfig, currentPage: $currentPage, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
         }
         .padding()
     }
@@ -43,7 +45,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problemConfig: .constant([true, true, true, true]), config:.constant(true), grado: .constant(3))
+        Practica(alumno: .constant(Alumno(nombre: "", id: "")), problemConfig: .constant([true, true, true, true]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -257,6 +259,7 @@ struct NumberPadView: View {
 }
 
 struct Controls: View {
+    @Binding var alumno:Alumno
     @Binding var problemConfig:[Bool]
     @Binding var currentPage:Int
     @Binding var grado:Int
@@ -299,7 +302,7 @@ struct Controls: View {
                 .padding()
             }
 
-            NavigationLink(destination: Resultados(results: $problems, time: $progressTime)){
+            NavigationLink(destination: Resultados(results: $problems, time: $progressTime, alumno: $alumno)){
                 Text("Terminar")
             }
             .padding()

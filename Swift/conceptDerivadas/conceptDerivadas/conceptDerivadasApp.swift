@@ -9,10 +9,10 @@ import SwiftUI
 
 @main
 struct conceptDerivadasApp: App {
-    @StateObject var sharedInfo = AppInfo()
+
     var body: some Scene {
         WindowGroup {
-            Home().environmentObject(sharedInfo)
+            Home(alumno: Alumno(nombre: "", id: ""), nombre: "", id: "")
         }
     }
 }

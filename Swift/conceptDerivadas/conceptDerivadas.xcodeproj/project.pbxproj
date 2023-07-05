@@ -21,8 +21,8 @@
 		FB5F02832A55FDCF001D4C90 /* QuoProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5F02822A55FDCF001D4C90 /* QuoProb.swift */; };
 		FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE329F2F15D00E55BDB /* Home.swift */; };
 		FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE529F2F20800E55BDB /* Examen.swift */; };
-		FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBE729F2F2EE00E55BDB /* Matricula.swift */; };
 		FB92E8222A4289390031D120 /* PolyProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB92E8212A4289390031D120 /* PolyProb.swift */; };
+		FB9CFB772A5628EC0081B5CD /* Alumno.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9CFB762A5628EC0081B5CD /* Alumno.swift */; };
 		FBA0360629F2F8D7002DB513 /* Resultados.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA0360529F2F8D7002DB513 /* Resultados.swift */; };
 		FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */; };
 		FBCB596729F2E5CB006C9C01 /* Practica.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCB596629F2E5CB006C9C01 /* Practica.swift */; };
@@ -61,8 +61,8 @@
 		FB5F02822A55FDCF001D4C90 /* QuoProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoProb.swift; sourceTree = "<group>"; };
 		FB77CBE329F2F15D00E55BDB /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FB77CBE529F2F20800E55BDB /* Examen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examen.swift; sourceTree = "<group>"; };
-		FB77CBE729F2F2EE00E55BDB /* Matricula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matricula.swift; sourceTree = "<group>"; };
 		FB92E8212A4289390031D120 /* PolyProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyProb.swift; sourceTree = "<group>"; };
+		FB9CFB762A5628EC0081B5CD /* Alumno.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alumno.swift; sourceTree = "<group>"; };
 		FBA0360529F2F8D7002DB513 /* Resultados.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resultados.swift; sourceTree = "<group>"; };
 		FBCB596129F2E5CB006C9C01 /* conceptDerivadas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = conceptDerivadas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conceptDerivadasApp.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				FBCB596429F2E5CB006C9C01 /* conceptDerivadasApp.swift */,
-				FB77CBE729F2F2EE00E55BDB /* Matricula.swift */,
+				FB9CFB762A5628EC0081B5CD /* Alumno.swift */,
 				FB77CBE329F2F15D00E55BDB /* Home.swift */,
 				FB23D0F32A5611D500C9A7FD /* PracConf.swift */,
 				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
@@ -284,6 +284,7 @@
 				FB92E8222A4289390031D120 /* PolyProb.swift in Sources */,
 				FB77CBE629F2F20800E55BDB /* Examen.swift in Sources */,
 				FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */,
+				FB9CFB772A5628EC0081B5CD /* Alumno.swift in Sources */,
 				FB04258C2A2A9A7700BE87AA /* ChainRule.swift in Sources */,
 				FBCEB78F2A521E3100B91872 /* Generation.swift in Sources */,
 				FB77CBE429F2F15D00E55BDB /* Home.swift in Sources */,
@@ -295,7 +296,6 @@
 				FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */,
 				FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */,
 				FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */,
-				FB77CBE829F2F2EE00E55BDB /* Matricula.swift in Sources */,
 				FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

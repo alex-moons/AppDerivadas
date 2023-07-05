@@ -14,11 +14,7 @@ struct Practica: View {
     @Binding var grado:Int
     @State private var title:String = "Práctica"
     @State private var problems:[Any] = []
-    @State private var check:Bool = false
-    @State private var next:Bool = false
-    @State private var currentSection = 0
     @State private var currentPage = 0
-    @State var listProb2:[PolyProb]
     @State private var usrInput: String = ""
     @State private var progressTime = 0
     
@@ -26,24 +22,20 @@ struct Practica: View {
         self._problemConfig = problemConfig
         self._config = config
         self._grado = grado
-        self._currentSection = State(initialValue: problemConfig.wrappedValue.firstIndex(where: { $0 })!)
-        _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
-        problems.append(newProblem(problemConfig: problemConfig.wrappedValue, grado: grado.wrappedValue))
+        _problems = State(initialValue: [newProblem(problemConfig: problemConfig.wrappedValue, grado: grado.wrappedValue)])
     }
     
     var body: some View {
         VStack(alignment: .center) {
-            VStack{
-                Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                    .dynamicTypeSize(.large)
-                
-                SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, problems: $problems, usrInput: $usrInput)
-            }
+            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
+                .dynamicTypeSize(.large)
             
-            NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput, problems: $problems)
+            SeccionIndiv(currentPage: $currentPage, problems: $problems, usrInput: $usrInput)
+            
+            NumberPadView(currentPage: $currentPage, usrInput: $usrInput, problems: $problems)
                 .padding(.all)
             
-            Controls(problemConfig: $problemConfig, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
+            Controls(problemConfig: $problemConfig, currentPage: $currentPage, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
         }
         .padding()
     }
@@ -51,11 +43,11 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problemConfig: .constant([true, true, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(problemConfig: .constant([true, true, true, true]), config:.constant(true), grado: .constant(3))
     }
 }
 
-func toLatex(input:String)->String{
+func answToLatex(input:String)->String{
     var usrInput:String = input
     usrInput = usrInput.replacingOccurrences(of: "(", with: "{")
     usrInput = usrInput.replacingOccurrences(of: ")", with: "}")
@@ -73,19 +65,18 @@ func newProblem(problemConfig: [Bool], grado:Int)->Any{
     
     switch checked.randomElement(){
     case 3:
-        return genQuo(grado: grado)
+        return QuoProb(problem: genQuo(grado: grado), usrAnsw: "")
     case 2:
-        return genProd(grado: grado)
+        return ProdProb(problem: genProd(grado: grado), usrAnsw: "")
     case 1:
-        return genChain(grado: grado)
+        return ChainProb(problem: genChain(grado: grado), usrAnsw: "")
     default:
-        return genPoly(grado: grado)
+        return PolyProb(problem: genPoly(grado: grado), usrAnsw: "")
     }
 }
 
 struct SeccionIndiv: View {
     @Binding var currentPage:Int
-    @Binding var listProb2:[PolyProb]
     @Binding var problems:[Any]
     @Binding var usrInput: String
 
@@ -157,7 +148,6 @@ struct NumberPadView: View {
     @State private var insertIndex: Int = 0
     @GestureState private var preview = false
     @Binding var currentPage:Int
-    @Binding var listProb2:[PolyProb]
     @Binding var usrInput: String
     @Binding var problems:[Any]
 
@@ -180,7 +170,7 @@ struct NumberPadView: View {
                         .opacity(preview ? 0 : 1)
                         .lineLimit(1...2)
                         .disabled(true)
-                    LaTeX(toLatex(input: usrInput))
+                    LaTeX(answToLatex(input: usrInput))
                         .parsingMode(.all)
                         .opacity(preview ? 1 : 0)
                 }
@@ -245,9 +235,7 @@ struct NumberPadView: View {
 
 struct Controls: View {
     @Binding var problemConfig:[Bool]
-    @Binding var currentSection:Int
     @Binding var currentPage:Int
-    @Binding var listProb2:[PolyProb]
     @Binding var grado:Int
     @Binding var title:String
     @Binding var config:Bool
@@ -257,20 +245,6 @@ struct Controls: View {
     var body: some View {
         VStack{
             HStack{
-                //Siguiente Problema
-                Button("Siguiente"){
-                    if currentPage+1 < problems.count{
-                        currentPage += 1
-                    }else{
-                        problems.append(newProblem(problemConfig: problemConfig, grado: grado))
-                        currentPage = problems.count-1
-                        print("Curr: \(currentPage)")
-                        print("Max: \(listProb2.count)")
-                    }
-
-                }
-                .padding()
-                
                 Button("Revisar"){
                     if let problem = problems[currentPage] as? PolyProb {
                         problem.check()
@@ -287,8 +261,21 @@ struct Controls: View {
                     }
                 }
                 .padding()
+                
+                //Siguiente Problema
+                Button("Siguiente"){
+                    if currentPage+1 < problems.count{
+                        currentPage += 1
+                    }else{
+                        problems.append(newProblem(problemConfig: problemConfig, grado: grado))
+                        currentPage = problems.count-1
+                        print("Curr: \(currentPage)")
+                    }
+
+                }
+                .padding()
             }
-            
+
             Button("Terminar"){
                 
             }

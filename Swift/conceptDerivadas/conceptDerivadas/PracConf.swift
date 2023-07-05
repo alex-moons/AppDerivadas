@@ -20,13 +20,13 @@ struct PracConfig: View {
                 
                 ForEach(Array(tipos.enumerated()), id:\.offset){ index, element in
                     Toggle(element, isOn: $problems[index])           .toggleStyle(SwitchToggleStyle(tint: .indigo))
-                    .onChange(of: problems[index]){ value in
-                        if problems.allSatisfy({$0 == false}){
-                            minimum = true
-                        }else{
-                            minimum = false
+                        .onChange(of: problems[index]){ value in
+                            if problems.allSatisfy({$0 == false}){
+                                minimum = true
+                            }else{
+                                minimum = false
+                            }
                         }
-                    }
                 }
             }
             
@@ -37,7 +37,7 @@ struct PracConfig: View {
                 Stepper("Dificultad \(grado)", value: $grado, in: 1...3)
             }
             
-            NavigationLink(destination: Practica(problems: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
+            NavigationLink(destination: Practica(problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
                 .buttonStyle(.plain)
                 .foregroundColor(.indigo)
                 .disabled(minimum)

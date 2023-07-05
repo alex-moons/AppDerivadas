@@ -13,7 +13,7 @@ struct Practica: View {
     @Binding var config:Bool
     @Binding var grado:Int
     @State private var title:String = "Práctica"
-    @State private var problems:[AnyObject] = []
+    @State private var problems:[Any] = []
     @State private var check:Bool = false
     @State private var next:Bool = false
     @State private var currentSection = 0
@@ -28,39 +28,22 @@ struct Practica: View {
         self._grado = grado
         self._currentSection = State(initialValue: problemConfig.wrappedValue.firstIndex(where: { $0 })!)
         _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
-        switch arc4random_uniform(4){
-        case 3:
-            
-        case 2:
-            
-        case 1:
-            
-        default:
-            problems.append(genPoly(grado: grado.wrappedValue))
-        }
+        problems.append(newProblem(problemConfig: problemConfig.wrappedValue, grado: grado.wrappedValue))
     }
     
     var body: some View {
         VStack(alignment: .center) {
-            TabView(selection: $currentSection){
-                ForEach(problemConfig.indices, id: \.self) { i in
-                    if problemConfig[i]{
-                        VStack{
-                            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
-                                .dynamicTypeSize(.large)
-                            
-                            SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
-                        }
-                    }
-                }
+            VStack{
+                Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
+                    .dynamicTypeSize(.large)
+                
+                SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, problems: $problems, usrInput: $usrInput)
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
             
-            NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
+            NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput, problems: $problems)
                 .padding(.all)
             
-            Controls(problemConfig: $problemConfig, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
+            Controls(problemConfig: $problemConfig, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems)
         }
         .padding()
     }
@@ -80,14 +63,35 @@ func toLatex(input:String)->String{
     return usrInput
 }
 
+func newProblem(problemConfig: [Bool], grado:Int)->Any{
+    var checked:[Int] = []
+    for (index, value) in problemConfig.enumerated(){
+        if value{
+            checked.append(index)
+        }
+    }
+    
+    switch checked.randomElement(){
+    case 3:
+        return genQuo(grado: grado)
+    case 2:
+        return genProd(grado: grado)
+    case 1:
+        return genChain(grado: grado)
+    default:
+        return genPoly(grado: grado)
+    }
+}
+
 struct SeccionIndiv: View {
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
+    @Binding var problems:[Any]
     @Binding var usrInput: String
 
     var body: some View {
         TabView(selection: $currentPage) {
-            ForEach((0..<listProb2.count), id: \.self) { i in
+            ForEach((0..<problems.count), id: \.self) { i in
                 VStack(){
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
@@ -97,9 +101,25 @@ struct SeccionIndiv: View {
                             .foregroundColor(Color.white)
                     }
                     .frame(alignment: .top)
-                    ProblemView(problem: listProb2[i].problem)
-                        .frame(height: 40, alignment: .top)
-                        .border(listProb2[i].correct ? .green : .clear)
+                    
+                    if let problem = problems[currentPage] as? PolyProb {
+                        ProblemView(problem: problem.problem)
+                            .frame(height: 40, alignment: .top)
+                            .border(problem.correct ? .green : .clear)
+                    } else if let problem = problems[currentPage] as? ChainProb {
+                        ProblemView(problem: problem.problem)
+                            .frame(height: 40, alignment: .top)
+                            .border(problem.correct ? .green : .clear)
+                    } else if let problem = problems[currentPage] as? ProdProb {
+                        ProblemView(problem: problem.problem)
+                            .frame(height: 40, alignment: .top)
+                            .border(problem.correct ? .green : .clear)
+                    } else if let problem = problems[currentPage] as? QuoProb {
+                        ProblemView(problem: problem.problem)
+                            .frame(height: 40, alignment: .top)
+                            .border(problem.correct ? .green : .clear)
+                    }
+
                 }
                 .frame(alignment: .top)
                 .scaledToFill()
@@ -110,13 +130,21 @@ struct SeccionIndiv: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .automatic))
         .onChange(of: currentPage, perform: { index in
-            usrInput = listProb2[currentPage].usrAnsw
+            if let problem = problems[currentPage] as? PolyProb {
+                usrInput = problem.usrAnsw
+            } else if let problem = problems[currentPage] as? ChainProb {
+                usrInput = problem.usrAnsw
+            } else if let problem = problems[currentPage] as? ProdProb {
+                usrInput = problem.usrAnsw
+            } else if let problem = problems[currentPage] as? QuoProb {
+                usrInput = problem.usrAnsw
+            }
         })
     }
 }
 
-struct ProblemView: View {
-    @State var problem:Polynomial
+struct ProblemView<T:Rule>: View {
+    @State var problem:T
     var body: some View {
         LaTeX("f(x) = " + problem.toLatex())
             .parsingMode(.all)
@@ -131,6 +159,8 @@ struct NumberPadView: View {
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
     @Binding var usrInput: String
+    @Binding var problems:[Any]
+
 
     let rows = [
         ["1", "2", "3", "^", "⌫"],
@@ -189,7 +219,15 @@ struct NumberPadView: View {
                             default:
                                 usrInput.append(number)
                             }
-                            listProb2[currentPage].usrAnsw = usrInput
+                            if let problem = problems[currentPage] as? PolyProb {
+                                problem.usrAnsw = usrInput
+                            } else if let problem = problems[currentPage] as? ChainProb {
+                                problem.usrAnsw = usrInput
+                            } else if let problem = problems[currentPage] as? ProdProb {
+                                problem.usrAnsw = usrInput
+                            } else if let problem = problems[currentPage] as? QuoProb {
+                                problem.usrAnsw = usrInput
+                            }
                         }, label: {
                             Text(number)
                                 .font(.largeTitle)
@@ -205,16 +243,6 @@ struct NumberPadView: View {
     }
 }
 
-//Métodos para determinar la siguiente seccion a mostrar
-func nextTrue(current:Int, problemConfig:[Bool])->Int{
-    let nextIndex = problemConfig[(current + 1)...].firstIndex(where: { $0 })
-    return nextIndex!
-}
-func prevTrue(current:Int, problemConfig:[Bool])->Int{
-    let previousIndex = problemConfig[..<current].lastIndex(where: { $0 })
-    return previousIndex!
-}
-
 struct Controls: View {
     @Binding var problemConfig:[Bool]
     @Binding var currentSection:Int
@@ -224,22 +252,18 @@ struct Controls: View {
     @Binding var title:String
     @Binding var config:Bool
     @Binding var progressTime: Int
-    
-    //cada bool representa si está en el inicio de las secciones (0) o problemas (1), para deshabilitar los botones
-    @State private var limit:(Bool, Bool) = (true, true)
+    @Binding var problems:[Any]
 
     var body: some View {
         VStack{
             HStack{
                 //Siguiente Problema
                 Button("Siguiente"){
-                    if currentPage+1 < listProb2.count{
+                    if currentPage+1 < problems.count{
                         currentPage += 1
-                        limit.1 = false
                     }else{
-                        listProb2.append(PolyProb(problem: genPoly(grado: grado), usrAnsw: ""))
-                        currentPage = listProb2.count-1
-                        limit.1 = false
+                        problems.append(newProblem(problemConfig: problemConfig, grado: grado))
+                        currentPage = problems.count-1
                         print("Curr: \(currentPage)")
                         print("Max: \(listProb2.count)")
                     }
@@ -248,21 +272,25 @@ struct Controls: View {
                 .padding()
                 
                 Button("Revisar"){
-                    listProb2[currentPage].check()
-                    if listProb2[currentPage].correct{
-                        print("correcto!")
-                    }else{
-                        print("incorrecto")
-                        print(listProb2[currentPage].usrAnsw)
-                        print(listProb2[currentPage].answ)
+                    if let problem = problems[currentPage] as? PolyProb {
+                        problem.check()
+                        (problem.correct ? print("correcto"):print("incorrecto"))
+                    } else if let problem = problems[currentPage] as? ChainProb {
+                        problem.check()
+                        (problem.correct ? print("correcto"):print("incorrecto"))
+                    } else if let problem = problems[currentPage] as? ProdProb {
+                        problem.check()
+                        (problem.correct ? print("correcto"):print("incorrecto"))
+                    } else if let problem = problems[currentPage] as? QuoProb {
+                        problem.check()
+                        (problem.correct ? print("correcto"):print("incorrecto"))
                     }
                 }
                 .padding()
             }
             
             Button("Terminar"){
-                currentSection = nextTrue(current: currentSection, problemConfig: problemConfig)
-                limit.0 = false
+                
             }
             .padding()
         }
@@ -276,20 +304,6 @@ struct Controls: View {
             }
             .padding(.trailing)
         }
-        .onChange(of: currentSection, perform: { index in
-            if currentSection == problemConfig.firstIndex(where: { $0 })!{
-                limit.0 = true
-            }else{
-                limit.0 = false
-            }
-        })
-        .onChange(of: currentPage, perform: { index in
-            if currentPage == 0{
-                limit.1 = true
-            }else{
-                limit.1 = false
-            }
-        })
     }
 }
 

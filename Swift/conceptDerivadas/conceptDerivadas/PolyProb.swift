@@ -7,7 +7,17 @@
 
 import UIKit
 
-class PolyProb: NSObject {
+protocol Problem {
+    associatedtype problemType
+    var problem: problemType { get set }
+    var answ: String {get}
+    var usrAnsw: String {get set}
+    var correct: Bool {get}
+
+    func check()
+}
+
+class PolyProb: Problem {
     var problem:Polynomial
     var answ:String
     var usrAnsw:String

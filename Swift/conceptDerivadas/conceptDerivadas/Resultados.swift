@@ -45,23 +45,23 @@ struct Resultados: View {
                 Text("Calificación: \(getGrade(results:results))")
                 
                 List{
-                    ForEach(Array(results.enumerated()), id: \.1) { index, result in
-                        VStack(alignment: .leading){
-                            HStack{
-                                Text("Problema \(index+1):")
-                                LaTeX(results[index].problem.toLatex())
-                                    .parsingMode(.all)
-                            }
-                            HStack{
-                                Text("Respuesta:")
-                                Text(results[index].answ)
-                            }
-                            HStack{
-                                Text("Se contestó:")
-                                Text(results[index].usrAnsw)
-                            }
-                        }
-                    }
+//                    ForEach(Array(results.enumerated()), id: \.1) { index, result in
+//                        VStack(alignment: .leading){
+//                            HStack{
+//                                Text("Problema \(index+1):")
+//                                LaTeX(results[index].problem.toLatex())
+//                                    .parsingMode(.all)
+//                            }
+//                            HStack{
+//                                Text("Respuesta:")
+//                                Text(results[index].answ)
+//                            }
+//                            HStack{
+//                                Text("Se contestó:")
+//                                Text(results[index].usrAnsw)
+//                            }
+//                        }
+//                    }
                 }
             }
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QuoProb: NSObject {
+class QuoProb: Problem {
     var problem:QuotientRule
     var answ:String
     var usrAnsw:String

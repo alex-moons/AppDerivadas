@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChainProb: NSObject {
+class ChainProb: Problem {
     var problem:ChainRule
     var answ:String
     var usrAnsw:String

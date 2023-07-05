@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductRule: NSObject {
+class ProductRule: Rule {
     let first: Polynomial
     let second: Polynomial
 

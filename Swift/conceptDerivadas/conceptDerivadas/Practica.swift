@@ -9,10 +9,11 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct Practica: View {
-    @Binding var problems:[Bool]
+    @Binding var problemConfig:[Bool]
     @Binding var config:Bool
     @Binding var grado:Int
     @State private var title:String = "Práctica"
+    @State private var problems:[AnyObject] = []
     @State private var check:Bool = false
     @State private var next:Bool = false
     @State private var currentSection = 0
@@ -21,26 +22,31 @@ struct Practica: View {
     @State private var usrInput: String = ""
     @State private var progressTime = 0
     
-    init(problems: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
-        self._problems = problems
+    init(problemConfig: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
+        self._problemConfig = problemConfig
         self._config = config
         self._grado = grado
-        self._currentSection = State(initialValue: problems.wrappedValue.firstIndex(where: { $0 })!)
+        self._currentSection = State(initialValue: problemConfig.wrappedValue.firstIndex(where: { $0 })!)
         _listProb2 = State(initialValue: [PolyProb(problem: genPoly(grado: grado.wrappedValue), usrAnsw: "")])
+        switch arc4random_uniform(4){
+        case 3:
+            
+        case 2:
+            
+        case 1:
+            
+        default:
+            problems.append(genPoly(grado: grado.wrappedValue))
+        }
     }
     
     var body: some View {
-        let responseMessages = [0: "general",
-                                1: "de la cadena",
-                                2: "del producto",
-                                3: "del cociente"]
-        
         VStack(alignment: .center) {
             TabView(selection: $currentSection){
-                ForEach(problems.indices, id: \.self) { i in
-                    if problems[i]{
+                ForEach(problemConfig.indices, id: \.self) { i in
+                    if problemConfig[i]{
                         VStack{
-                            Text("Encuentra la derivada de la siguiente función utilizando la regla \(responseMessages[i]!):")
+                            Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
                                 .dynamicTypeSize(.large)
                             
                             SeccionIndiv(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
@@ -54,7 +60,7 @@ struct Practica: View {
             NumberPadView(currentPage: $currentPage, listProb2: $listProb2, usrInput: $usrInput)
                 .padding(.all)
             
-            Controls(problems: $problems, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
+            Controls(problemConfig: $problemConfig, currentSection: $currentSection, currentPage: $currentPage, listProb2: $listProb2, grado: $grado, title: $title, config: $config, progressTime: $progressTime)
         }
         .padding()
     }
@@ -62,7 +68,7 @@ struct Practica: View {
 
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(problems: .constant([true, true, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(problemConfig: .constant([true, true, false, false]), config:.constant(true), grado: .constant(3))
     }
 }
 
@@ -200,17 +206,17 @@ struct NumberPadView: View {
 }
 
 //Métodos para determinar la siguiente seccion a mostrar
-func nextTrue(current:Int, problems:[Bool])->Int{
-    let nextIndex = problems[(current + 1)...].firstIndex(where: { $0 })
+func nextTrue(current:Int, problemConfig:[Bool])->Int{
+    let nextIndex = problemConfig[(current + 1)...].firstIndex(where: { $0 })
     return nextIndex!
 }
-func prevTrue(current:Int, problems:[Bool])->Int{
-    let previousIndex = problems[..<current].lastIndex(where: { $0 })
+func prevTrue(current:Int, problemConfig:[Bool])->Int{
+    let previousIndex = problemConfig[..<current].lastIndex(where: { $0 })
     return previousIndex!
 }
 
 struct Controls: View {
-    @Binding var problems:[Bool]
+    @Binding var problemConfig:[Bool]
     @Binding var currentSection:Int
     @Binding var currentPage:Int
     @Binding var listProb2:[PolyProb]
@@ -224,49 +230,9 @@ struct Controls: View {
 
     var body: some View {
         VStack{
-            Button("Checar"){
-                listProb2[currentPage].check()
-                if listProb2[currentPage].correct{
-                    print("correcto!")
-                }else{
-                    print("incorrecto")
-                    print(listProb2[currentPage].usrAnsw)
-                    print(listProb2[currentPage].answ)
-                }
-            }
-            .padding()
-        
             HStack{
-                //Seccion Previa
-                Button(action:{
-                    if currentSection > problems.firstIndex(where: { $0 })!{
-                        currentSection = prevTrue(current: currentSection, problems: problems)
-                    }else{
-                        limit.0 = true
-                    }
-                    print("prev Ch")
-                }){
-                    Image(systemName: "chevron.left.2")
-                }
-                .padding()
-                .disabled(limit.0)
-                
-                //Problema anterior
-                Button(action:{
-                    if currentPage == 1{
-                        currentPage -= 1
-                        limit.1 = true
-                    }else{
-                        currentPage -= 1
-                    }
-                }){
-                    Image(systemName: "chevron.left")
-                }
-                .padding()
-                .disabled(limit.1)
-                
                 //Siguiente Problema
-                Button(action:{
+                Button("Siguiente"){
                     if currentPage+1 < listProb2.count{
                         currentPage += 1
                         limit.1 = false
@@ -278,27 +244,27 @@ struct Controls: View {
                         print("Max: \(listProb2.count)")
                     }
 
-                }){
-                    Image(systemName: "chevron.right")
                 }
                 .padding()
                 
-                //Siguiente seccion. Si estás en la última sección, navega a resultados.
-                if currentSection >= problems.lastIndex(of: true)!{
-                    NavigationLink(destination: Resultados(results: $listProb2, time: $progressTime)){
-                        Image(systemName: "chevron.right.2")
+                Button("Revisar"){
+                    listProb2[currentPage].check()
+                    if listProb2[currentPage].correct{
+                        print("correcto!")
+                    }else{
+                        print("incorrecto")
+                        print(listProb2[currentPage].usrAnsw)
+                        print(listProb2[currentPage].answ)
                     }
-                    .padding()
-                }else{
-                    Button(action:{
-                        currentSection = nextTrue(current: currentSection, problems: problems)
-                        limit.0 = false
-                    }){
-                        Image(systemName: "chevron.right.2")
-                    }
-                    .padding()
                 }
+                .padding()
             }
+            
+            Button("Terminar"){
+                currentSection = nextTrue(current: currentSection, problemConfig: problemConfig)
+                limit.0 = false
+            }
+            .padding()
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
@@ -311,7 +277,7 @@ struct Controls: View {
             .padding(.trailing)
         }
         .onChange(of: currentSection, perform: { index in
-            if currentSection == problems.firstIndex(where: { $0 })!{
+            if currentSection == problemConfig.firstIndex(where: { $0 })!{
                 limit.0 = true
             }else{
                 limit.0 = false

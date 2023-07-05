@@ -23,13 +23,13 @@ func genChain(grado:Int)->ChainRule{
     case 2:
         repeat{
             num = Int.random(in: -9...9)
-        }while num != 0
+        }while num != 0 && num != 1
         den = Int.random(in: 1...9)
     case 1:
-        num = Int.random(in: 1...9)
+        num = Int.random(in: 2...9)
         den = Int.random(in: 1...9)
     default:
-        num = Int.random(in: 1...9)
+        num = Int.random(in: 2...9)
     }
     let problem = ChainRule(polynomial: genPoly(grado: grado), exponent: Fraction(numerator: num, denominator: den))
     return problem

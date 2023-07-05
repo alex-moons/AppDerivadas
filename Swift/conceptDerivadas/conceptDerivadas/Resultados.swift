@@ -9,7 +9,7 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct Resultados: View {
-    @Binding var results: [PolyProb]
+    @Binding var results: [Any]
     @Binding var time:Int
     
     var hours: Int {
@@ -44,35 +44,60 @@ struct Resultados: View {
                 
                 Text("Calificación: \(getGrade(results:results))")
                 
+                VStack{
+                    Text("Nombre:")
+                    Text("ID:")
+                    Text("Tiempo:")
+                    Text("Fecha:")
+                    Text("Hora:")
+                    Text("Nombre:")
+                }
+                
                 List{
-//                    ForEach(Array(results.enumerated()), id: \.1) { index, result in
-//                        VStack(alignment: .leading){
-//                            HStack{
-//                                Text("Problema \(index+1):")
-//                                LaTeX(results[index].problem.toLatex())
-//                                    .parsingMode(.all)
-//                            }
-//                            HStack{
-//                                Text("Respuesta:")
-//                                Text(results[index].answ)
-//                            }
-//                            HStack{
-//                                Text("Se contestó:")
-//                                Text(results[index].usrAnsw)
-//                            }
-//                        }
-//                    }
+                    ForEach(results.indices, id: \.self) { index in
+                        VStack{
+                            Text("Problema \(index+1):")
+                            
+                            if let problem = results[index] as? PolyProb {
+                                LaTeX(problem.problem.toLatex())
+                                    .parsingMode(.all)
+                            } else if let problem = results[index] as? ChainProb {
+                                LaTeX(problem.problem.toLatex())
+                                    .parsingMode(.all)
+                            } else if let problem = results[index] as? ProdProb {
+                                LaTeX(problem.problem.toLatex())
+                                    .parsingMode(.all)
+                            } else if let problem = results[index] as? QuoProb {
+                                LaTeX(problem.problem.toLatex())
+                                    .parsingMode(.all)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-func getGrade(results:[PolyProb]) -> Int {
+func getGrade(results:[Any]) -> Int {
     var correctAnsw = 0
     for result in results {
-        if result.correct{
-            correctAnsw += 1
+        if let problem = result as? PolyProb {
+            if problem.correct{
+                correctAnsw += 1
+            }
+        } else if let problem = result as? ChainProb {
+            if problem.correct{
+                correctAnsw += 1
+            }
+        } else if let problem = result as? ProdProb {
+            if problem.correct{
+                correctAnsw += 1
+            }
+        } else if let problem = result as? QuoProb {
+            if problem.correct{
+                correctAnsw += 1
+            }
         }
     }
     return Int(Double(correctAnsw) / Double(results.count) * 100)

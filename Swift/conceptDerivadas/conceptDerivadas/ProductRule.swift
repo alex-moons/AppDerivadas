@@ -33,6 +33,6 @@ class ProductRule: Rule {
     }
 
     func toLatex() -> String {
-      return ("(" + self.first.toLatex() + ")(" + self.second.toLatex() + ")")
+        return ("(" + self.first.toLatex() + ")*(" + self.second.toLatex() + ")")
     }
 }

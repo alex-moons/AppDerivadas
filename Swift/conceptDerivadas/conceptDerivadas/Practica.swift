@@ -85,39 +85,45 @@ struct SeccionIndiv: View {
             ForEach((0..<problems.count), id: \.self) { i in
                 VStack(){
                     ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.indigo)
-                            .frame(width: 35, height: 35)
+                        if let problem = problems[currentPage] as? PolyProb {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(problem.correct ? Color.green : Color.indigo)
+                                .frame(width: 35, height: 35)
+                        } else if let problem = problems[currentPage] as? ChainProb {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(problem.correct ? Color.green : Color.indigo)
+                                .frame(width: 35, height: 35)
+                        } else if let problem = problems[currentPage] as? ProdProb {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(problem.correct ? Color.green : Color.indigo)
+                                .frame(width: 35, height: 35)
+                        } else if let problem = problems[currentPage] as? QuoProb {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(problem.correct ? Color.green : Color.indigo)
+                                .frame(width: 35, height: 35)
+                        }
                         Text(String(i+1))
                             .foregroundColor(Color.white)
                     }
-                    .frame(alignment: .top)
                     
                     if let problem = problems[currentPage] as? PolyProb {
                         ProblemView(problem: problem.problem)
-                            .frame(height: 40, alignment: .top)
-                            .border(problem.correct ? .green : .clear)
+                            .frame(height: 100)
                     } else if let problem = problems[currentPage] as? ChainProb {
                         ProblemView(problem: problem.problem)
-                            .frame(height: 40, alignment: .top)
-                            .border(problem.correct ? .green : .clear)
+                            .frame(height: 100)
                     } else if let problem = problems[currentPage] as? ProdProb {
                         ProblemView(problem: problem.problem)
-                            .frame(height: 40, alignment: .top)
-                            .border(problem.correct ? .green : .clear)
+                            .frame(height: 50)
                     } else if let problem = problems[currentPage] as? QuoProb {
                         ProblemView(problem: problem.problem)
-                            .frame(height: 40, alignment: .top)
-                            .border(problem.correct ? .green : .clear)
+                            .frame(height: 50)
                     }
 
                 }
-                .frame(alignment: .top)
-                .scaledToFill()
                 .padding()
             }
         }
-        .frame(height: 180, alignment: .top)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .automatic))
         .onChange(of: currentPage, perform: { index in
@@ -137,10 +143,27 @@ struct SeccionIndiv: View {
 struct ProblemView<T:Rule>: View {
     @State var problem:T
     var body: some View {
-        LaTeX("f(x) = " + problem.toLatex())
-            .parsingMode(.all)
-            .font(.title2)
-            .scaledToFill()
+        if let product = problem as? ProductRule {
+            HStack{
+                LaTeX("f(x) = ")
+                    .parsingMode(.all)
+                VStack(){
+                    let components = product.toLatex().components(separatedBy: "*")
+                    LaTeX(components[0])
+                        .parsingMode(.all)
+                        .font(.title2)
+                        .frame(height: 50)
+                    LaTeX("*" + components[1])
+                        .parsingMode(.all)
+                        .font(.title2)
+                        .frame(height: 50)
+                }
+            }
+        }else{
+            LaTeX("f(x) = " + problem.toLatex())
+                .parsingMode(.all)
+                .font(.title2)
+        }
     }
 }
 
@@ -276,8 +299,8 @@ struct Controls: View {
                 .padding()
             }
 
-            Button("Terminar"){
-                
+            NavigationLink(destination: Resultados(results: $problems, time: $progressTime)){
+                Text("Terminar")
             }
             .padding()
         }

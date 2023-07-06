@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PracConfig: View {
+    @State var showSecond = false
+    @State var showThird = false
     @Binding var alumno:Alumno
     @State private var problems:[Bool] = [true,false,false,false]
     @State private var config:Bool = true
@@ -31,18 +33,21 @@ struct PracConfig: View {
                 }
             }
             
-            Section(header: Text("Configuraciones")){
+            Section(header: Text("General")){
                 Toggle("Cronómetro", isOn: $config)
                     .toggleStyle(SwitchToggleStyle(tint: .purple))
                 
                 Stepper("Dificultad \(grado)", value: $grado, in: 1...3)
             }
             
-            NavigationLink(destination: Practica(alumno: .constant(Alumno(nombre: "", id: "")), problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
+            NavigationLink(destination: Practica(alumno: $alumno, problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
+                .isDetailLink(false)
                 .buttonStyle(.plain)
                 .foregroundColor(.indigo)
                 .disabled(minimum)
         }
+        .navigationTitle("Configuración")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 

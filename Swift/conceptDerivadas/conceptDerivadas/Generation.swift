@@ -7,40 +7,42 @@
 
 import Foundation
 
-func genPoly(grado:Int)->Polynomial{
+func genPoly(grado:Int, poly:Bool)->Polynomial{
     let problem = Polynomial(terms: [Term]())
-    let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado)
+    let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado, poly: poly)
     let _: () = problem.orderTerms()
     print("Generado: \(problem.toString())")
     return problem
 }
 
 func genChain(grado:Int)->ChainRule{
-    var num:Int
+    var num = 1
     var den = 1
     
     switch grado{
-    case 2:
+    case 3:
         repeat{
             num = Int.random(in: -9...9)
-        }while num != 0 && num != 1
-        den = Int.random(in: 1...9)
-    case 1:
-        num = Int.random(in: 2...9)
-        den = Int.random(in: 1...9)
+            den = Int.random(in: 1...9)
+        }while num == 0 || abs(num) == abs(den)
+    case 2:
+        repeat{
+            num = Int.random(in: 2...9)
+            den = Int.random(in: 1...9)
+        }while num == den
     default:
         num = Int.random(in: 2...9)
     }
-    let problem = ChainRule(polynomial: genPoly(grado: grado), exponent: Fraction(numerator: num, denominator: den))
+    let problem = ChainRule(polynomial: genPoly(grado: grado, poly: false), exponent: Fraction(numerator: num, denominator: den).simplify())
     return problem
 }
 
 func genProd(grado:Int)->ProductRule{
-    let problem = ProductRule(first: genPoly(grado: grado), second: genPoly(grado: grado))
+    let problem = ProductRule(first: genPoly(grado: grado, poly: false), second: genPoly(grado: grado, poly: false))
     return problem
 }
 
 func genQuo(grado:Int)->QuotientRule{
-    let problem = QuotientRule(numerator: genPoly(grado: grado), denominator: genPoly(grado: grado))
+    let problem = QuotientRule(numerator: genPoly(grado: grado, poly: false), denominator: genPoly(grado: grado, poly: false))
     return problem
 }

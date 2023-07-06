@@ -9,6 +9,7 @@ import SwiftUI
 import LaTeXSwiftUI
 
 struct Resultados: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Binding var results: [Any]
     @Binding var time:Int
     @Binding var alumno:Alumno
@@ -27,10 +28,10 @@ struct Resultados: View {
 
     
     var body: some View {
-        VStack(alignment: .center) {
-            VStack{
-                Text("Nombre: \(alumno.nombre)")
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading){
                 Text("ID:\(alumno.id)")
+                Text("Nombre: \(alumno.nombre)")
                 HStack{
                     Text("Tiempo:")
                     HStack(spacing: 0) {
@@ -49,6 +50,8 @@ struct Resultados: View {
                 Text("Hora: \(formattedTime())")
                 Text("\(getGrade(results:results))/\(results.count)")
             }
+            .font(.system(size: 18))
+            .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 10))
             
             List{
                 ForEach(results.indices, id: \.self) { index in
@@ -97,6 +100,17 @@ struct Resultados: View {
                 }
             }
         }
+        .navigationTitle("Resultados")
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
+    }
+    
+    var backButton: some View {
+        Button(
+            "Terminar",
+            action: { self.presentationMode.wrappedValue.dismiss() }
+        )
     }
 }
 

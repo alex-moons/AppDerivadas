@@ -15,18 +15,17 @@ struct Home: View {
     var body: some View {
         NavigationView{
             VStack(alignment: .center){
-                TextField("Nombre", text: $nombre)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("ID", text: $id)
                     .padding()
                 
-                TextField("ID", text: $id)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Nombre", text: $nombre)
                     .padding()
                 
                 NavigationLink(destination: PracConfig(alumno: $alumno)){
                     Text("Práctica")
                 }
                 .navigationTitle("Derivada del Día")
+                .disabled((nombre == "" || id == ""))
             }
             .onDisappear(perform: {
                 alumno.nombre = nombre

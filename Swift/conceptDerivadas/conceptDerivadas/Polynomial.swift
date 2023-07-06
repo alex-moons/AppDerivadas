@@ -19,7 +19,7 @@ class Polynomial: Rule {
         self.terms = terms
     }
     
-    func generate(minVal: Int, maxVal: Int, degree: Int) {
+    func generate(minVal: Int, maxVal: Int, degree: Int, poly:Bool) {
         self.terms = [Term]()
         
         var negativeProb:Double
@@ -43,7 +43,12 @@ class Polynomial: Rule {
             expfracProb = 0.0
             expnegfracProb = 0.0
         }
-        for _ in 0..<degree {
+        var term = 3
+        if poly{
+            term = degree
+        }
+        
+        for _ in 0..<term {
             var frac1:Fraction
             var numMin = 1
             var denMax = 1

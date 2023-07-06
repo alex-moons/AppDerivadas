@@ -40,9 +40,12 @@ class ChainRule: Rule {
     }
 
     func diffLatex() -> String {
-      var result = self.exponent.toLatex() + "(" + self.polynomial.toLatex() + ")^{"
+      var result = self.exponent.toLatex() + "(" + self.polynomial.toLatex() + ")"
       let newExponent = self.exponent - Fraction(numerator: 1, denominator: 1)
-      result += newExponent.toLatex() + "}(" + self.polynomial.differentiate().toLatex() + ")"
+        if newExponent.numerator != newExponent.denominator{
+            result += "^{" + newExponent.toLatex() + "}"
+        }
+        result += "(" + self.polynomial.differentiate().toLatex() + ")"
       return result
     }
 

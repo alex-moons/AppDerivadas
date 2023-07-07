@@ -15,29 +15,38 @@ class Fraction: NSObject {
     
     init(numerator: Int, denominator: Int) {
         self.numerator = numerator
-        if (denominator == 0){
+        self.denominator = denominator
+        if (self.denominator == 0){
             self.denominator = 1
-        } else if denominator < 0{
-            self.denominator = abs(denominator)
-            if numerator > 0{
-                self.numerator.negate()
-            }
-        }else {
-            self.denominator = denominator
+        } else if self.denominator < 0 {
+            self.numerator *= -1
+            self.denominator *= -1
         }
+//        self.numerator = numerator
+//        if (denominator == 0){
+//            self.denominator = 1
+//        } else if denominator < 0{
+//            self.denominator = abs(denominator)
+//            if numerator > 0{
+//                self.numerator.negate()
+//            }
+//        }else {
+//            self.denominator = denominator
+//        }
     }
     
     func selfSimplify() {
         var numerator = self.numerator
         var denominator = self.denominator
-        var commonDivisor = 1
+//        var commonDivisor = 1
         let upper = min(abs(numerator), abs(denominator))
         if !(upper < 2){
-            for i in 2...upper {
-              while numerator % i == 0 && denominator % i == 0 {
+            for i in (2...upper).reversed() {
+//              while numerator % i == 0 && denominator % i == 0 {
+                if numerator % i == 0 && denominator % i == 0 {
                 numerator /= i
                 denominator /= i
-                commonDivisor *= i
+//                commonDivisor *= i
               }
             }
             if (self.numerator < 0 && self.denominator < 0) {
@@ -47,6 +56,25 @@ class Fraction: NSObject {
             self.numerator = numerator
             self.denominator = denominator
         }
+//        var numerator = self.numerator
+//        var denominator = self.denominator
+//        var commonDivisor = 1
+//        let upper = min(abs(numerator), abs(denominator))
+//        if !(upper < 2){
+//            for i in 2...upper {
+//              while numerator % i == 0 && denominator % i == 0 {
+//                numerator /= i
+//                denominator /= i
+//                commonDivisor *= i
+//              }
+//            }
+//            if (self.numerator < 0 && self.denominator < 0) {
+//              numerator *= -1
+//              denominator *= -1
+//            }
+//            self.numerator = numerator
+//            self.denominator = denominator
+//        }
     }
 
     //Operadores y comparadores
@@ -94,7 +122,9 @@ class Fraction: NSObject {
 
     //Funciones
     func isPositive() -> Bool {
-      return (self.numerator > 0 || self.denominator > 0)
+      return (self.numerator > 0)
+//      return (self.numerator > 0 || self.denominator > 0)
+
     }
 
     func isWhole() -> Bool {
@@ -105,16 +135,16 @@ class Fraction: NSObject {
     func simplify() -> Fraction {
       var numerator = self.numerator
       var denominator = self.denominator
-      var commonDivisor = 1
+//      var commonDivisor = 1
       let upper = min(abs(numerator), abs(denominator))
       if (upper < 2){
         return self
       }
-      for i in 2...upper {
-        while numerator % i == 0 && denominator % i == 0 {
+        for i in (2...upper).reversed() {
+        if numerator % i == 0 && denominator % i == 0 {
           numerator /= i
           denominator /= i
-          commonDivisor *= i
+//          commonDivisor *= i
         }
       }
       if (self.numerator < 0 && self.denominator < 0) {
@@ -122,6 +152,26 @@ class Fraction: NSObject {
         denominator *= -1
       }
       return Fraction(numerator: numerator, denominator: denominator)
+        
+//        var numerator = self.numerator
+//        var denominator = self.denominator
+//        var commonDivisor = 1
+//        let upper = min(abs(numerator), abs(denominator))
+//        if (upper < 2){
+//          return self
+//        }
+//        for i in 2...upper {
+//          while numerator % i == 0 && denominator % i == 0 {
+//            numerator /= i
+//            denominator /= i
+//            commonDivisor *= i
+//          }
+//        }
+//        if (self.numerator < 0 && self.denominator < 0) {
+//          numerator *= -1
+//          denominator *= -1
+//        }
+//        return Fraction(numerator: numerator, denominator: denominator)
     }
 
     //Funciones de output

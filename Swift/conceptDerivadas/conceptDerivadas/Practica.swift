@@ -250,7 +250,8 @@ struct SeccionIndiv: View {
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .indexViewStyle(.page(backgroundDisplayMode: .never))
-        .disabled(true)
+        //Habilitar el tabView para poder regresarte a problemas anteriores.
+        .disabled(false)
         //Que se muestre la respuesta del problema activo
         .onChange(of: currentPage, perform: { index in
             if let problem = problems[currentPage] as? PolyProb {
@@ -339,13 +340,14 @@ struct NumberPadView: View {
                 Image(systemName: "photo.on.rectangle")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 15)
+                    .frame(height: 20)
                     .onTapGesture {
                         (preview ? (preview = false):(preview = true))
                     }
                     .padding(.trailing)
             }
             .padding(.leading)
+            .padding(.bottom)
             
             //Generación de las teclas individuales
             ForEach(rows, id: \.self) { row in
@@ -379,7 +381,7 @@ struct NumberPadView: View {
                         }, label: {
                             Text(number)
                                 .font(.largeTitle)
-                                .frame(width: 55, height: 55)
+                                .frame(width: 50, height: 50)
                                 .background(Color.indigo)
                                 .foregroundColor(.white)
                                 .cornerRadius(16)

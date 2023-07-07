@@ -14,40 +14,51 @@ struct Home: View {
     @State private var mostrarCred:Bool = false
     
     var body: some View {
-        NavigationView{
-            VStack(alignment: .center){
-                Spacer()
-                TextField("ID", text: $id)
-                    .padding()
-                
-                TextField("Nombre", text: $nombre)
-                    .padding()
-                
-                NavigationLink(destination: PracConfig(alumno: $alumno)){
-                    Text("Práctica")
-                }
-                .navigationTitle("Derivada del Día")
-                .disabled((nombre == "" || id == ""))
-                
-                Spacer()
-                
-                VStack{
-                    Button("Créditos"){
-                        mostrarCred = true
-                        print("credito")
-                    }
-                }
-                .popover(isPresented: $mostrarCred) {
-                    Text("Derivada del Día ha sido desarrollado por estudiantes del Tecnológico de Monterrey durante el verano de 2023, como parte del proyecto social 'Acciones Ciudadanas' y asesorados por la maestra Yolanda Martínez Treviño.\n\nDesarrolladores:\nAlejandro Hernández Carrales \n Patricio Santos Garza\n\n Derivada del Día se distribuye como está de manera gratuita y se prohíbe su distribución y uso con fines de lucro.")
-                        .multilineTextAlignment(.leading)
+        VStack {
+            VStack {
+                NavigationView{
+                    VStack(alignment: .center){
+                        Spacer()
+                        TextField("ID", text: $id)
+                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                        
+                        TextField("Nombre", text: $nombre)
+                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                        
+                        NavigationLink(destination: PracConfig(alumno: $alumno)){
+                            Text("Práctica")
+                        }
+                        .navigationTitle("Derivada del Día")
+                        .disabled((nombre == "" || id == ""))
+                        
+                        Spacer()
+                        
+                        VStack{
+                            Button("Créditos"){
+                                mostrarCred = true
+                                print("credito")
+                            }
+                        }
                         .padding()
+                        .popover(isPresented: $mostrarCred) {
+                            Text("Derivada del Día ha sido desarrollado por estudiantes del Tecnológico de Monterrey durante el periodo Feb-Jul del 2023, asesorados por la maestra Yolanda Martínez Treviño.\n\nDesarrolladores:\nAlejandro Hernández Carrales \n Patricio Santos Garza\n\n Derivada del Día se distribuye como está de manera gratuita y se prohíbe su distribución y uso con fines de lucro.")
+                                .multilineTextAlignment(.leading)
+                                .padding()
+                        }
+                    }
+                    .onDisappear(perform: {
+                        alumno.nombre = nombre
+                        alumno.id = id
+                    })
                 }
             }
-            .onDisappear(perform: {
-                alumno.nombre = nombre
-                alumno.id = id
-            })
+            .background(Color.white)
+            .cornerRadius(10)
+            .padding(8)
         }
+        .background(Color.indigo)
     }
 }
 

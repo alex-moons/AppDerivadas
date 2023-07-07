@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct PracConfig: View {
-    @State var showSecond = false
-    @State var showThird = false
     @Binding var alumno:Alumno
+    //los problems es qué tipo de regla hay, 0.General, 1.Cadena, 2.Producto, 3.Cociente
     @State private var problems:[Bool] = [true,false,false,false]
+    //Config es para el cronómetro
     @State private var config:Bool = true
+    //Grado es para dificultad
     @State private var grado:Int = 3
+    //minimum se asegura que al menos una regla sea seleccionada
     @State private var minimum:Bool = false
     
     var body: some View {
@@ -41,7 +43,6 @@ struct PracConfig: View {
             }
             
             NavigationLink(destination: Practica(alumno: $alumno, problemConfig: $problems, config: $config, grado: $grado), label: {Text("Empezar")})
-                .isDetailLink(false)
                 .buttonStyle(.plain)
                 .foregroundColor(.indigo)
                 .disabled(minimum)

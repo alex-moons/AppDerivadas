@@ -31,7 +31,6 @@
 		FBCB597529F2E732006C9C01 /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FBCB597429F2E732006C9C01 /* LaTeXSwiftUI */; };
 		FBCEB78F2A521E3100B91872 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCEB78E2A521E3000B91872 /* Generation.swift */; };
 		FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2B75D2A42916500543125 /* StopWatch.swift */; };
-		FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDECFA02A44CEB600C4BD9A /* Config.swift */; };
 		FBE67F6D2A4B8B7700278213 /* ChainProb.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE67F6C2A4B8B7700278213 /* ChainProb.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,7 +71,6 @@
 		FBCB596C29F2E5CC006C9C01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FBCEB78E2A521E3000B91872 /* Generation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
 		FBD2B75D2A42916500543125 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
-		FBDECFA02A44CEB600C4BD9A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		FBE67F6C2A4B8B7700278213 /* ChainProb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainProb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,7 +128,6 @@
 				FB9CFB762A5628EC0081B5CD /* Alumno.swift */,
 				FB77CBE329F2F15D00E55BDB /* Home.swift */,
 				FB23D0F32A5611D500C9A7FD /* PracConf.swift */,
-				FBDECFA02A44CEB600C4BD9A /* Config.swift */,
 				FBCB596629F2E5CB006C9C01 /* Practica.swift */,
 				FB77CBE529F2F20800E55BDB /* Examen.swift */,
 				FBA0360529F2F8D7002DB513 /* Resultados.swift */,
@@ -295,7 +292,6 @@
 				FB0425882A2A997B00BE87AA /* Term.swift in Sources */,
 				FBCB596529F2E5CB006C9C01 /* conceptDerivadasApp.swift in Sources */,
 				FBD2B75E2A42916500543125 /* StopWatch.swift in Sources */,
-				FBDECFA12A44CEB600C4BD9A /* Config.swift in Sources */,
 				FB04258E2A2A9AD400BE87AA /* ProductRule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

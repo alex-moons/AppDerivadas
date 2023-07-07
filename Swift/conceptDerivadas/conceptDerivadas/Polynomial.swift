@@ -48,6 +48,8 @@ class Polynomial: Rule {
             term = degree
         }
         
+        var used:[Int] = []
+        
         for _ in 0..<term {
             var frac1:Fraction
             var numMin = 1
@@ -72,10 +74,20 @@ class Polynomial: Rule {
             if Double.random(in: 0.0...100.0) <= expnegfracProb{
                 numMin = minVal
             }
-            repeat {
-                frac2 = Fraction(numerator: Int.random(in: numMin...maxVal), denominator: Int.random(in: 1...denMax))
-            } while frac2.numerator == 0
-            
+            print("usedCount: \(used.count)")
+            if used.count != 0{
+                repeat {
+                    frac2 = Fraction(numerator: Int.random(in: numMin...maxVal), denominator: Int.random(in: 1...denMax))
+                } while frac2.numerator == 0 || used.contains(frac2.numerator)
+                
+                used.append(frac2.numerator)
+            }else{
+                repeat {
+                    frac2 = Fraction(numerator: Int.random(in: numMin...maxVal), denominator: Int.random(in: 1...denMax))
+                } while frac2.numerator == 0
+                
+                used.append(frac2.numerator)
+            }
             self.terms.append(Term(coefficient: frac1.simplify(), exponent: frac2.simplify()))
         }
     }

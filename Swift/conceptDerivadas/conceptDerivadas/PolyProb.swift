@@ -7,22 +7,15 @@
 
 import UIKit
 
-protocol Problem {
-    associatedtype problemType
-    var problem: problemType { get set }
-    var answ: String {get}
-    var usrAnsw: String {get set}
-    var correct: Bool {get}
+//Clase de problema
 
-    func check()
-}
-
-class PolyProb: Problem {
+class PolyProb: NSObject {
     var problem:Polynomial
     var answ:String
     var usrAnsw:String
     var correct:Bool
     
+    //Solo se inicializa el problema y respuesta de usuario
     init(problem:Polynomial, usrAnsw:String){
         self.problem = problem
         self.answ = problem.differentiate().toString()

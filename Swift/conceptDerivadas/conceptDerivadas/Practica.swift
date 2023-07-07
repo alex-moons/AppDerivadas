@@ -19,6 +19,7 @@ struct Practica: View {
     @State private var usrInput: String = ""
     @State private var progressTime = 0
     @State private var showAnswer:Bool = false
+    @State private var showCheck:Bool = false
     
     init(alumno: Binding<Alumno>, problemConfig: Binding<[Bool]>, config: Binding<Bool>, grado: Binding<Int>) {
         self._alumno = alumno
@@ -28,28 +29,42 @@ struct Practica: View {
         _problems = State(initialValue: [newProblem(problemConfig: problemConfig.wrappedValue, grado: grado.wrappedValue)])
     }
     
+    //La vista padre de todas las subvistas
     var body: some View {
         VStack(alignment: .center) {
             Text("Encuentra la derivada de la siguiente función utilizando la regla correspondiente:")
                 .dynamicTypeSize(.large)
             
+            //Vista para los los problemas individuales
             SeccionIndiv(currentPage: $currentPage, problems: $problems, usrInput: $usrInput)
+                .overlay(showCheck ? (checkCorrect):(nil))
+
             
+            //Se encarga del teclado
             NumberPadView(currentPage: $currentPage, usrInput: $usrInput, problems: $problems)
                 .padding(.all)
             
-            Controls(alumno: $alumno, problemConfig: $problemConfig, currentPage: $currentPage, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems, showAnswer: $showAnswer)
+            //Se encargra de los botones de navegación
+            Controls(alumno: $alumno, problemConfig: $problemConfig, currentPage: $currentPage, grado: $grado, title: $title, config: $config, progressTime: $progressTime, problems: $problems, showAnswer: $showAnswer, showCheck: $showCheck)
         }
         .padding()
         .overlay(showAnswer ? (correctAnsw):(nil))
 
     }
+    var checkCorrect: some View{
+        Rectangle()
+            .frame(width: .infinity, height: .infinity)
+            .foregroundColor(Color.green)
+            .opacity(0.1)
+    }
     
     var correctAnsw: some View{
         ZStack{
+            //Opaca el fondo cuando se muestra la respuesta correcta
             Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
+            //if-else de la respuesta correcta que se muestra
             VStack(alignment: .center){
                 if let problem = problems[currentPage] as? PolyProb {
                     VStack(alignment: .center){
@@ -142,12 +157,14 @@ struct Practica: View {
     }
 }
 
+//Define los parámetros base para propósitos de desarrollo
 struct Practica_Previews: PreviewProvider {
     static var previews: some View {
-        Practica(alumno: .constant(Alumno(nombre: "", id: "")), problemConfig: .constant([false, true, false, false]), config:.constant(true), grado: .constant(3))
+        Practica(alumno: .constant(Alumno(nombre: "", id: "")), problemConfig: .constant([true, false, false, false]), config:.constant(true), grado: .constant(1))
     }
 }
 
+//Sirve para dar una prevista de la $usrInput en Latex
 func answToLatex(input:String)->String{
     var usrInput:String = input
     usrInput = usrInput.replacingOccurrences(of: "(", with: "{")
@@ -156,6 +173,7 @@ func answToLatex(input:String)->String{
     return usrInput
 }
 
+//Define cómo se genera un problema en base al arreglo de configuración
 func newProblem(problemConfig: [Bool], grado:Int)->Any{
     var checked:[Int] = []
     for (index, value) in problemConfig.enumerated(){
@@ -176,15 +194,18 @@ func newProblem(problemConfig: [Bool], grado:Int)->Any{
     }
 }
 
+//Vista de la sección individual del problema
 struct SeccionIndiv: View {
     @Binding var currentPage:Int
     @Binding var problems:[Any]
     @Binding var usrInput: String
+    @State var isCorrect:Bool = false
 
     var body: some View {
+        //Multiples vistas en páginas
         TabView(selection: $currentPage) {
             ForEach((0..<problems.count), id: \.self) { i in
-                VStack(){
+                VStack{
                     ZStack{
                         if let problem = problems[currentPage] as? PolyProb {
                             RoundedRectangle(cornerRadius: 10)
@@ -230,6 +251,7 @@ struct SeccionIndiv: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .indexViewStyle(.page(backgroundDisplayMode: .never))
         .disabled(true)
+        //Que se muestre la respuesta del problema activo
         .onChange(of: currentPage, perform: { index in
             if let problem = problems[currentPage] as? PolyProb {
                 usrInput = problem.usrAnsw
@@ -244,9 +266,11 @@ struct SeccionIndiv: View {
     }
 }
 
+//Vista que contiene el LaTex, usa protocolo para que pueda recibir lo que sea.
 struct ProblemView<T:Rule>: View {
     @State var problem:T
     var body: some View {
+        //Los problemas del producto son muy largos, entonces se dividen en 3 vistas
         if let product = problem as? ProductRule {
             HStack{
                 LaTeX("f(x) = ")
@@ -266,6 +290,7 @@ struct ProblemView<T:Rule>: View {
             .fixedSize(horizontal: true, vertical: true)
             .frame(width: 200)
         }else{
+            //Los otros 3 problemas si caben
             LaTeX("f(x) = " + problem.toLatex())
                 .parsingMode(.all)
                 .font(.title2)
@@ -275,6 +300,7 @@ struct ProblemView<T:Rule>: View {
     }
 }
 
+//Vista de la respuesta y el teclado
 struct NumberPadView: View {
     @State private var insertIndex: Int = 0
     @State private var preview = false
@@ -294,7 +320,9 @@ struct NumberPadView: View {
             HStack (alignment: .center){
                 LaTeX("f'(x) =")
                     .parsingMode(.all)
+                //Permite deslizar el texto si es mucho que escribir
                 ScrollView(.horizontal){
+                    //Vista LaTex super puesta para que pueda aparecer si se pica al botón
                     ZStack(alignment: .leading){
                         TextField("Respuesta", text: $usrInput)
                             .opacity(preview ? 0 : 1)
@@ -319,6 +347,7 @@ struct NumberPadView: View {
             }
             .padding(.leading)
             
+            //Generación de las teclas individuales
             ForEach(rows, id: \.self) { row in
                 HStack(spacing: 7) {
                     ForEach(row, id: \.self) { number in
@@ -337,6 +366,7 @@ struct NumberPadView: View {
                             default:
                                 usrInput.append(number)
                             }
+                            //Actualizar la respuesta del usuario en cada problema individual con cada tecla activada
                             if let problem = problems[currentPage] as? PolyProb {
                                 problem.usrAnsw = usrInput
                             } else if let problem = problems[currentPage] as? ChainProb {
@@ -361,6 +391,7 @@ struct NumberPadView: View {
     }
 }
 
+//Maneja los botones de navegación
 struct Controls: View {
     @Binding var alumno:Alumno
     @Binding var problemConfig:[Bool]
@@ -371,23 +402,25 @@ struct Controls: View {
     @Binding var progressTime: Int
     @Binding var problems:[Any]
     @Binding var showAnswer:Bool
+    @Binding var showCheck:Bool
 
     var body: some View {
         VStack{
             HStack{
+                //Si se revisa se llama al método correspondiente
                 Button("Revisar"){
                     if let problem = problems[currentPage] as? PolyProb {
                         problem.check()
-                        (problem.correct ? print("correcto"):(showAnswer = true))
+                        (problem.correct ? (showCheck = true):(showAnswer = true))
                     } else if let problem = problems[currentPage] as? ChainProb {
                         problem.check()
-                        (problem.correct ? print("correcto"):(showAnswer = true))
+                        (problem.correct ? (showCheck = true):(showAnswer = true))
                     } else if let problem = problems[currentPage] as? ProdProb {
                         problem.check()
-                        (problem.correct ? print("correcto"):(showAnswer = true))
+                        (problem.correct ? (showCheck = true):(showAnswer = true))
                     } else if let problem = problems[currentPage] as? QuoProb {
                         problem.check()
-                        (problem.correct ? print("correcto"):(showAnswer = true))
+                        (problem.correct ? (showCheck = true):(showAnswer = true))
                     }
                 }
                 .padding()
@@ -402,6 +435,7 @@ struct Controls: View {
                         print("Curr: \(currentPage)")
                     }
                     showAnswer = false
+                    showCheck = false
 
                 }
                 .padding()

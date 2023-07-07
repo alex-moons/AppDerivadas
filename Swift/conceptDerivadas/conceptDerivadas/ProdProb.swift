@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProdProb: Problem {
+class ProdProb: NSObject {
     var problem:ProductRule
     var answ:String
     var usrAnsw:String

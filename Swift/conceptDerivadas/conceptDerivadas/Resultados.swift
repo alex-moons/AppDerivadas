@@ -14,6 +14,7 @@ struct Resultados: View {
     @Binding var time:Int
     @Binding var alumno:Alumno
     
+    //FormatHelper para el timer
     var hours: Int {
         time / 3600
     }
@@ -54,6 +55,7 @@ struct Resultados: View {
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 10))
             
             List{
+                //Muestra cada problema y si fue resuelto
                 ForEach(results.indices, id: \.self) { index in
                     HStack{
                         VStack(alignment: .leading){
@@ -114,7 +116,7 @@ struct Resultados: View {
     }
 }
 
-
+//FormatHelper para fecha y hora
 func formattedDate() -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "d/MMMM/yyyy"
@@ -128,6 +130,7 @@ func formattedTime() -> String {
     return dateFormatter.string(from: Date())
 }
 
+//Calcula la cantidad de aciertos
 func getGrade(results:[Any]) -> Int {
     var correctAnsw = 0
     for result in results {

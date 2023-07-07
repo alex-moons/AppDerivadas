@@ -7,7 +7,9 @@
 
 import Foundation
 
+//Generación de cada problema
 func genPoly(grado:Int, poly:Bool)->Polynomial{
+    //Si es regla general (poly), el grado afecta la cantidad de términos en el polinomio. Si no, el default es 3
     let problem = Polynomial(terms: [Term]())
     let _: () = problem.generate(minVal: -9, maxVal: 9, degree: grado, poly: poly)
     let _: () = problem.orderTerms()

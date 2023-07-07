@@ -1,4 +1,4 @@
-//
+// ::::::SIN FUNCIONALIDAAD:::::
 //  ContentView.swift
 //  conceptDerivadas
 //
